@@ -1,0 +1,215 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    color: var(--off-white-color);
+}
+
+
+
+:root {
+    --common-font-size: calc(0.4rem + 1vw);
+    --header-font-size: calc(var(--common-font-size) * 1.1);
+    --title-font-size: calc(var(--common-font-size) * 1.3);
+
+    --common-padding: calc(5px + 1vw);
+    --common-margin: calc(3px + 1vw);
+
+    --darkest-color: #1B1A17; 
+    --darkest-lighter-color: #3d3c37;
+    --base-color: #F0A500;
+    --base-contrast-color: #E45826;
+    --base-light-color: #E6D5B8;
+    --off-white-color: #FDF6EC;
+    --confirm-color: #3CCF4E;
+    --reject-color: #CC3636;
+
+    --cover-size: 
+
+}
+
+body {
+    background-color: var(--darkest-color);
+}
+
+section#library-grid {
+    padding: var(--common-padding);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(calc(150px + 5vw), 1fr));
+
+    gap: var(--common-margin);
+}
+
+/* book-container - (start)*/
+section.book-container {
+    border: 1px solid var(--base-color);
+    border-radius: 5px;
+    width: 100%;
+    padding: var(--common-padding);
+
+    display: grid;
+    position: relative;
+    
+    grid-template-columns: 1fr;
+    grid-template-areas: 
+        "button"
+        "title"
+        "genre"
+        "cover"
+        "read-status"
+        "details";
+    gap: calc(var(--common-margin) * 0.5);
+}
+
+section.book-container.read {
+    box-shadow: inset 0 0 10px var(--confirm-color);
+    border-color: var(--confirm-color);
+}
+
+/* div.book-container.read div[data-class='cover-image'] {
+    box-shadow: 0 0 10px var(--confirm-color);
+} */
+
+p {
+    font-family: var(--common-font-size);
+    color: var(--off-white-color);
+    font-size: var(--common-font-size);
+}
+
+
+h3.title {
+    grid-area: title;
+    align-self: center;
+    justify-self: center;
+
+    font-size: var(--title-font-size);
+    color: var(--base-color);
+}
+
+button[data-class='read-status'],
+button[data-class='edit']{
+    grid-area: button;
+    position: absolute;
+    right: 0;
+    top: 0;
+
+    width: calc(var(--header-font-size) * 2);
+    height: calc(var(--header-font-size) * 2);
+    border: 1px solid var(--darkest-color);
+    border-radius: 50%;
+    background-color: var(--off-white-color);
+
+    font-size: var(--header-font-size);
+}
+
+button i {
+    color: var(--darkest-color);
+}
+
+button[data-class='edit'] {
+    left: 0;
+}
+
+button[data-class='read-status'].completed {
+    background-color: var(--confirm-color);
+}
+
+button[data-class='read-status'].ongoing {
+    background-color: var(--base-color);
+}
+
+button[data-class='read-status'].nys {
+    background-color: var(--reject-color);
+}
+
+
+
+
+div.genre {
+    grid-area: genre;
+}
+
+div.genre ul {
+    
+    display: flex;
+    justify-content: center;
+    gap: var(--common-font-size);
+    list-style-type: none;
+    color: var(--off-white-color);
+    font-size: calc(var(--common-font-size) * 0.8);
+}
+
+div[data-class='cover-image'] {
+    grid-area: cover;
+
+    width: 100px;
+    height: 120px;
+    border: 1px solid var(--base-contrast-color);
+    background-position: center;
+    background-size: cover; 
+    margin: var(--common-margin) auto;
+}
+
+p[data-class='read-status'] {
+    grid-area: read-status;
+    justify-self: center;
+    margin-bottom: var(--common-margin);
+}
+
+p[data-class='read-status'].completed {
+    color: var(--confirm-color);
+}
+
+p[data-class='read-status'].nys {
+    color: var(--reject-color);
+}
+
+p[data-class='read-status'].ongoing {
+    color: var(--base-color);
+}
+
+
+section[data-class='book-details'] {
+    grid-area: details;
+
+    display: flex;
+    flex-direction: column;
+}
+
+section[data-class='book-details'] h4 {
+    display: none;
+}
+
+div[data-class='details'] {
+    display: grid;
+    grid-template-columns: calc(55px + 3vw) 1fr;
+}
+
+
+
+/* book-container - (end)*/
+
+
+
+
+
+
+button#add-book {
+    width: 50px;
+    height: 50px;
+    border: 1px solid black;
+    border-radius: 50%;
+}
+
+
+
+
+
+
+
+
+

@@ -1,16 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
     <meta name="author" content="Fred Mark Baldeviso">
-    <meta name="description" content="Compiles book(objects) to the library with details">
+    <meta
+      name="description"
+      content="Compiles book(objects) to the library with details">
     <script src="main.js" defer></script>
+    <script src="https://kit.fontawesome.com/ff4bf87dd5.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="style.css">
-</head>
-<body>
+
+  </head>
+  <body>
+    <header>
+        <h1>Library</h1>
+    </header>
+
+    <main>
+        <section id="library-grid">
+        
+            <section data-id="book1" class="book-container grid read">
+                <h3 data-id="book1" class="title">Chainsaw Man</h3>
+                <button data-id="book1" data-class="read-status" class="completed">
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+                <button data-id="book1" data-class="edit">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                </button>
+                <div data-id="book1" class="genre">
+                    <ul>
+                        <li data-id="genre-tag">Comedy</li>
+                        <li data-id="genre-tag">Thriller</li>
+                        <li data-id="genre-tag">Action</li>
+                    </ul>
+                </div>
+                <div data-id='book1'
+                    data-class="cover-image"
+                    style="background-image: 
+                        url('https://upload.wikimedia.org/wikipedia/en/2/24/Chainsawman.jpg'),
+                        url(./images/book-preview.svg)">
+                </div>
+
+                <p data-class="read-status" class="completed">Completed</p>
+
+                <section data-id="book1" data-class="book-details">
+                    <h4 class="book-details">Book Details</h4>
+                    <div data-class="details" class="author">
+                        <p class="label">Author:</p>
+                        <p class="content">Tatsuki Fujimoto</p>
+                    </div>
     
-</body>
+                    <div data-class="details" class="published">
+                        <p class="label">Published:</p>
+                        <p class="content">December 3, 2018</p>
+                    </div>
+    
+                    <div data-class="details" class="pages">
+                        <p class="label">Pages:</p>
+                        <p class="content">2240</p>
+                    </div> 
+                </section>      
+            </section>
+
+            <section data-id="book2" class="book-container grid">
+                <h3 data-id="book2" class="title">Katanagatari</h3>
+                <button data-id="book1" data-class="read-status" class="ongoing">
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+                <button data-id="book1" data-class="edit">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                </button>
+                <div data-id="book2" class="genre">
+                    <ul>
+                        <li data-id="genre-tag">Romance</li>
+                        <li data-id="genre-tag">Thriller</li>
+                        <li data-id="genre-tag">Action</li>
+                    </ul>
+                </div>
+                <div data-id='book2'
+                    data-class="cover-image"
+                    style="background-image: 
+                        url('https://kbimages1-a.akamaihd.net/c109aa62-d8f4-4a42-b134-c1ee207f92e6/353/569/90/False/katanagatari-1.jpg'),
+                        url(./images/book-preview.svg)">
+                </div>
+
+                <p data-class="read-status" class="ongoing">On-going</p>
+
+                <section data-id="book2" data-class="book-details">
+                    <h4 class="book-details">Book Details</h4>
+                    <div data-class="details" class="author">
+                        <p class="label">Author:</p>
+                        <p class="content">Nisio Isin</p>
+                    </div>
+    
+                    <div data-class="details" class="published">
+                        <p class="label">Published:</p>
+                        <p class="content">January 10, 2007</p>
+                    </div>
+    
+                    <div data-class="details" class="pages">
+                        <p class="label">Pages:</p>
+                        <p class="content">3840</p>
+                    </div> 
+                </section>
+            </section>
+
+
+            <section data-id="book3" class="book-container grid">
+                <h3 data-id="book3" class="title">Dune</h3>
+                <button data-id="book1" data-class="read-status" class="nys">
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+                <button data-id="book1" data-class="edit">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                </button>
+                <div data-id="book3" class="genre">
+                    <ul>
+                        <li data-id="genre-tag">Sci-fi</li>
+                        <li data-id="genre-tag">Drama</li>
+                        <li data-id="genre-tag">Action</li>
+                    </ul>
+                </div>
+                <div data-id='book3'
+                    data-class="cover-image"
+                    style="background-image: 
+                        url('https://upload.wikimedia.org/wikipedia/en/d/de/Dune-Frank_Herbert_%281965%29_First_edition.jpg'),
+                        url(./images/book-preview.svg)">
+                </div>
+
+                <p data-class="read-status" class="nys">Not Yet Started</p>
+
+                <section data-id="book3" data-class="book-details">
+                    <h4 class="book-details">Book Details</h4>
+                    <div data-class="details" class="author">
+                        <p class="label">Author:</p>
+                        <p class="content">Frank Herbert</p>
+                    </div>
+    
+                    <div data-class="details" class="published">
+                        <p class="label">Published:</p>
+                        <p class="content">August 1965</p>
+                    </div>
+    
+                    <div data-class="details" class="pages">
+                        <p class="label">Pages:</p>
+                        <p class="content">412</p>
+                    </div> 
+                </section>
+            </section>
+    
+        </section>  <!-- section library-grid (end)  -->
+        
+
+        <button id="add-book">
+            <svg xmlns="http://www.w3.org/2000/svg" 
+                viewBox="0 0 24 24">
+                <title>plus</title>
+                <path d="M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z" />
+            </svg>
+        </button>   
+
+
+
+        <form action="">
+            <div id="title-cont">
+                <label for="get-title">Title: </label>
+                <input type="text" name="get-title" id="get-title">
+            </div>
+            
+            <div id="author-cont">
+                <label for="get-author">Author: </label>
+                <input type="text" name="get-author" id="get-author">
+            </div>
+
+            <div id="published-cont">
+                <label for="get-published">Published: </label>
+                <input type="date"
+                     name="get-published" 
+                     id="get-published"
+                     value="-">
+            </div>
+
+            <button>Confirm</button>
+
+
+        </form>
+
+    </main>
+
+    <footer></footer>
+  </body>
 </html>
