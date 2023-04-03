@@ -22,9 +22,9 @@
     <main>
         <section id="library-grid">
         
-            <section data-id="book1" class="book-container grid read">
+            <section data-id="book1" class="book-container grid done">
                 <h3 data-id="book1" class="title">Chainsaw Man</h3>
-                <button data-id="book1" data-class="read-status" class="completed">
+                <button data-id="book1" data-class="read-status" class="done">
                     <i class="fa-regular fa-eye"></i>
                 </button>
                 <button data-id="book1" data-class="edit">
@@ -44,7 +44,7 @@
                         url(./images/book-preview.svg)">
                 </div>
 
-                <p data-class="read-status" class="completed">Completed</p>
+                <p data-class="read-status" class="done">Done</p>
 
                 <section data-id="book1" data-class="book-details">
                     <h4 class="book-details">Book Details</h4>
@@ -109,7 +109,7 @@
             </section>
 
 
-            <section data-id="book3" class="book-container grid">
+            <section data-id="book3" class="book-container grid nys">
                 <h3 data-id="book3" class="title">Dune</h3>
                 <button data-id="book1" data-class="read-status" class="nys">
                     <i class="fa-regular fa-eye"></i>
@@ -165,26 +165,83 @@
 
 
 
-        <form action="">
-            <div id="title-cont">
+        <form id="add-book-form" action="">
+            <div data-class="input-field" id="title-cont">
                 <label for="get-title">Title: </label>
                 <input type="text" name="get-title" id="get-title">
             </div>
             
-            <div id="author-cont">
+            <div data-class="input-field" id="author-cont">
                 <label for="get-author">Author: </label>
                 <input type="text" name="get-author" id="get-author">
             </div>
 
-            <div id="published-cont">
-                <label for="get-published">Published: </label>
-                <input type="date"
-                     name="get-published" 
-                     id="get-published"
-                     value="-">
+            <div data-class="input-field" id="published-cont">
+                <p>Published:</p>
+                <label for="get-month">Month</label>
+                <button
+                    type="button"
+                    name="get-month" 
+                    id="get-month"
+                    class="empty"
+                    value="">
+                    Select Month
+                </button>
+                    
+                <dialog id="month-selector">
+                    <div class="dialog-container">
+                        <p>-- Select Month --</p>
+                        <button type="button"
+                            id="exit-month"><i class="fa-solid fa-xmark"></i></button>
+                        <div id="month-grid">
+                            <button type="button" class="month" value="January">Jan</button>
+                            <button type="button" class="month" value="February">Feb</button>
+                            <button type="button" class="month" value="March">Mar</button>
+                            <button type="button" class="month" value="April">Apr</button>
+                            <button type="button" class="month" value="May">May</button>
+                            <button type="button" class="month" value="June">Jun</button>
+                            <button type="button" class="month" value="July">Jul</button>
+                            <button type="button" class="month" value="August">Aug</button>
+                            <button type="button" class="month" value="September">Sept</button>
+                            <button type="button" class="month" value="October">Oct</button>
+                            <button type="button" class="month" value="November">Nov</button>
+                            <button type="button" class="month" value="December">Dec</button>
+                        </div>
+                        <button type="button" class="month" value="">Clear</button>
+                    </div>
+                    
+                </dialog>
+
+
+                     
+                <label for="get-year">Year </label>
+                <input type="number"
+                    min="1900"
+                    max="2023"
+                    name="get-year" 
+                    id="get-year"
+                    placeholder="Type Year">
             </div>
 
-            <button>Confirm</button>
+            <div data-class="input-field" id="pages-cont">
+                <label for="get-pages">Pages: </label>
+                <input type="text" name="get-pages" id="get-pages">
+            </div>
+
+            <div data-class="input-field" id="genre-cont">
+                <fieldset>
+                    <legend>Genre: </legend>
+                    <p>Select 1 to 3 genre</p>
+                    <div id="genre-grid"></div>
+                    
+            
+                </fieldset>
+            </div>
+
+
+
+
+            <button id="save-book">Save</button>
 
 
         </form>
