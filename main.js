@@ -8,6 +8,16 @@ const monthSelector = document.querySelector('dialog#month-selector');
 const months = document.querySelectorAll('button.month');
     months.forEach(month => {month.addEventListener('click', selectMonth)});
 
+const addBookButton = document.querySelector('button#add-book');
+    addBookButton.addEventListener('click', showBookForm);
+
+const formDialog = document.querySelector('dialog#add-book-dialog');
+const formDialogExit = document.querySelector('button#exit-add-form');
+    formDialogExit.addEventListener('click', showBookForm);
+const saveButton = document.querySelector('button#save-book');
+    saveButton.addEventListener('click', saveBook);
+
+
 // Adds genre (start) - 
 const genreArray = [];
 function Genre(name, labelText ) {
@@ -109,3 +119,29 @@ function selectMonth() {
 }
 // Pops and close Month Selector (end) -
 
+// Open and Close Add Book Form (start) -
+
+function showBookForm() {
+    if (this === addBookButton) {
+        formDialog.showModal();
+    } else if (this === formDialogExit) {
+        formDialog.close();
+    }
+}
+
+function saveBook() {
+    formDialog.close();
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// Open and Close Add Book Form (end) -

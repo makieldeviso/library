@@ -33,8 +33,24 @@
 
 }
 
+@keyframes modal-show {
+    from {
+        opacity: 0;
+        transform: scale(0.1);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+  }
+
 body {
     background-color: var(--darkest-color);
+}
+
+main {
+    position: relative;
 }
 
 section#library-grid {
@@ -195,24 +211,81 @@ div[data-class='details'] {
 
 /* add book button (start) - */
 button#add-book {
-    width: 50px;
-    height: 50px;
-    border: 1px solid black;
-    border-radius: 50%;
+    font-size: calc(var(--common-font-size) * 4);
+   
+    width: calc(40px + 5vw);
+    height: calc(40px + 5vw);
+    border: 1px solid var(--base-color);
+    background-color: var(--base-contrast-color);
+    box-shadow: 0 3px 5px var(--gray-color);
+    border-radius: 20%;
+
+    position: fixed;
+    bottom: 5vh;
+    right: 10vw;
+    z-index: 1;
+}
+
+button#add-book i {
+    color: var(--off-white-color);
+    text-shadow: 0 0 5px var(--darkest-color);
 }
 
 /* add book button (end) - */
 
-
 /* add book input field (start) -*/
+
+dialog#add-book-dialog {
+    width: 95vw;
+    border: none;
+    background-color: transparent;
+    margin: auto;
+    
+    animation: 0.3s modal-show;
+    padding: 10px;
+}
+
+dialog#add-book-dialog::backdrop {
+    background-color: rgba(27, 26, 23, 0.9);
+}
+
+div#add-book-cont {
+    background-color: var(--base-contrast-color);
+    border: 1px solid var(--base-contrast-color);
+    box-shadow: 0 0 15px var(--dark-gray-color);
+    width: 100%;
+    overflow-y: scroll;
+}
+
+dialog#add-book-dialog h3 {
+    text-align: center;
+    padding: var(--common-padding);
+    font-size: calc(var(--form-font-size) * 1.3);
+}
+
+button#exit-add-form {
+    font-size: calc(var(--form-font-size) * 1.3);
+    background-color: var(--base-color);
+    border: 1px solid var(--base-color);
+    width: calc(var(--form-font-size) * 2.3);
+    height: calc(var(--form-font-size) * 2.3);
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    right: 0; 
+}
+button#exit-add-form i {
+    color: var(--darkest-color);
+}   
 
 form#add-book-form {
     background-color: var(--darkest-lighter-color);
     display: flex;
     flex-direction: column;
     width: 100%;
+    height: 100%;
     padding: var(--common-padding);
-    gap: var(--common-margin);
+    gap: calc(var(--common-margin) * 2);
 }
 
 div[data-class='input-field'] {
@@ -227,7 +300,8 @@ div[data-class='input-field'] input {
     font-size: var(--form-font-size);
 }
 
-div[data-class='input-field'] input {
+div[data-class='input-field'] input,
+div[data-class='input-field'] textarea {
     background-color: var(--gray-color);
     border: 1px solid var(--dark-gray-color);
     padding: 1px 5px;
@@ -293,23 +367,18 @@ form::placeholder {
   }
 
 dialog#month-selector {
-    border: 1px solid var(--off-white-color);
+    border: none;
+    background-color: transparent;
     animation: 0.3s modal-show;
+    padding: 10px 10px 0 0;
 }
 
-@keyframes modal-show {
-    from {
-        opacity: 0;
-        transform: scale(0.1);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-  } 
+dialog#month-selector::backdrop {
+    background-color: transparent;
+}
 
 div.dialog-container {
+    border: 1px solid var(--off-white-color);
     width: 100%;
     padding: var(--common-padding);
     background-color: var(--darkest-color);
@@ -318,18 +387,19 @@ div.dialog-container {
     align-items: center;
     gap: var(--common-padding);
     position: relative;
+    margin: auto;
 }
 
 button#exit-month {
     font-size: var(--form-font-size);
-    background-color: transparent;
+    background-color: var(--base-contrast-color);
     border: 1px solid var(--darkest-lighter-color);
     width: calc(var(--form-font-size) * 2);
     height: calc(var(--form-font-size) * 2);
     border-radius: 50%;
     position: absolute;
-    top: 5px;
-    right: 5px;
+    top: -10px;
+    right: -10px;
 }
 
 button#exit-month i {
@@ -363,10 +433,20 @@ button[value = ''] {
 button[value = ''] {
     width: 25%;
     background-color: var(--darkest-lighter-color);
-
 }
 
+label[for='get-cover'] {
+    align-self: self-start;
+}
 
+input#get-cover {
+    height: calc(var(--form-font-size) * 10);
+}
+
+textarea#get-cover {
+    min-height: 55px;
+    resize: vertical;
+}
 
 
 
