@@ -185,14 +185,19 @@
                     id="get-month"
                     class="empty"
                     value="">
-                    Select Month
+                    <span id="month-label">Select Month</span>
+                    <span id="calendar-icon"><i class="fa-regular fa-calendar"></i></span>
                 </button>
                     
                 <dialog id="month-selector">
                     <div class="dialog-container">
                         <p>-- Select Month --</p>
                         <button type="button"
-                            id="exit-month"><i class="fa-solid fa-xmark"></i></button>
+                            id="exit-month"
+                            class="month"
+                            value="exit">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
                         <div id="month-grid">
                             <button type="button" class="month" value="January">Jan</button>
                             <button type="button" class="month" value="February">Feb</button>

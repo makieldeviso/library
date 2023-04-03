@@ -268,7 +268,22 @@ input#get-year {
     width: 100%;
 }
 
-button#get-month.empty {
+button#get-month {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    border-radius: 0;
+}
+button#get-month span,
+button#get-month span i {
+    color: var(--darkest-color);
+}
+
+button#get-month span#calendar-icon{
+    justify-self: end;
+}
+
+button#get-month.empty span,
+button#get-month.empty span i {
     color: var(--dark-gray-color);
 }
 
@@ -279,8 +294,20 @@ form::placeholder {
 
 dialog#month-selector {
     border: 1px solid var(--off-white-color);
-    /* width: 80vw; */
+    animation: 0.3s modal-show;
 }
+
+@keyframes modal-show {
+    from {
+        opacity: 0;
+        transform: scale(0.1);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+  } 
 
 div.dialog-container {
     width: 100%;
@@ -308,8 +335,6 @@ button#exit-month {
 button#exit-month i {
     color: var(--off-white-color);
 }
-
-
 
 div.dialog-container p {
     font-size: var(--form-font-size);
@@ -362,6 +387,11 @@ div#genre-cont fieldset {
 div#genre-cont legend {
     font-size: var(--form-font-size);
     padding: 0 var(--common-padding);
+}
+
+div#genre-cont p {
+    font-size: var(--form-font-size);
+    margin-bottom: var(--common-margin);
 }
 
 div#genre-grid {

@@ -3,6 +3,7 @@ const genreGrid = document.querySelector('div#genre-grid');
 
 const selectMonthButton = document.querySelector('button#get-month');
     selectMonthButton.addEventListener('click', popMonthSelect);
+    const selectMonthButtonText = document.querySelector('button#get-month span');
 const monthSelector = document.querySelector('dialog#month-selector');
 const months = document.querySelectorAll('button.month');
     months.forEach(month => {month.addEventListener('click', selectMonth)});
@@ -69,26 +70,42 @@ function addGenre(genre) {
 genreArray.forEach(genre => addGenre(genre));
 // Adds genre (end) - 
 
-
-// Pops Month Selector
-
+// Pops and close Month Selector (start) -
 function popMonthSelect() {
     monthSelector.showModal();
+
+    const buttonPos = selectMonthButton.getBoundingClientRect();
+    const modalHeight = monthSelector.offsetHeight;
+
+    const dialogTop = buttonPos.top - modalHeight - 10;
+    const dialogLeft = buttonPos.left;
+
+    monthSelector.style.top = `${dialogTop}px`;
+    monthSelector.style.left = `${dialogLeft}px`;
+
+    window.addEventListener('scroll', detectScroll);
+    function detectScroll() {
+        monthSelector.close();
+        window.removeEventListener('scroll', detectScroll);
+    }
 }
 
 function selectMonth() {
     const monthValue = this.getAttribute('value');
     selectMonthButton.setAttribute('value', monthValue);
-    selectMonthButton.setAttribute('class', '');
-
+    
     if (monthValue === '') {
-        selectMonthButton.textContent = 'Select Month';
+        selectMonthButtonText.textContent = 'Select Month';
         selectMonthButton.setAttribute('class', 'empty');
+    } else if(monthValue === 'exit') {
+        monthSelector.close();
+        return;
     } else {
-        selectMonthButton.textContent = monthValue;
+        selectMonthButtonText.textContent = monthValue;
+        selectMonthButton.setAttribute('class', '');
     }
 
     monthSelector.close();
 }
-
+// Pops and close Month Selector (end) -
 
