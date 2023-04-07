@@ -62,7 +62,7 @@ section#library-grid {
 }
 
 /* book-container - (start)*/
-section.book-container {
+section[data-class='book-container'] {
     border: 1px solid var(--base-color);
     border-radius: 5px;
     width: 100%;
@@ -82,17 +82,17 @@ section.book-container {
     gap: calc(var(--common-margin) * 0.5);
 }
 
-section.book-container.read {
+section[data-class='book-container'].book-container.read {
     box-shadow: inset 0 0 10px var(--confirm-color);
     border-color: var(--confirm-color);
 }
 
-section.book-container.done {
+section[data-class='book-container'].book-container.done {
     box-shadow: inset 0 0 10px var(--confirm-color);
     border-color: var(--confirm-color);
 }
 
-section.book-container.nys {
+section[data-class='book-container'].book-container.nys {
     border-color: var(--reject-color);
 }
 
@@ -479,23 +479,21 @@ textarea#get-cover {
     resize: vertical;
 }
 
-
-
-
-
-
 /* genre (start) -- */
-div#genre-cont {
+div#genre-cont,
+div#read-cont {
     display: block;
     width: 100%;
 }
 
-div#genre-cont fieldset {
+div#genre-cont fieldset,
+div#read-cont fieldset {
     width: 100%;
     padding: var(--common-padding);
 }
 
-div#genre-cont legend {
+div#genre-cont legend,
+div#read-cont legend {
     font-size: var(--form-font-size);
     padding: 0 var(--common-padding);
 }
@@ -534,8 +532,48 @@ input[type='checkbox']:checked {
     background-color: var(--base-contrast-color);
 }
 
+input[type='checkbox']:checked + label {
+    color: var(--base-color);
+}
+
 /* genre (end) -- */
 
+/* read status (start) -- */
+div#read-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--common-margin);
+    justify-items: center;
+}
+
+div.radio-cont {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--common-margin);
+    align-items: center;
+}
+
+input[type='radio'] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: var(--dark-gray-color);
+    width: var(--common-font-size);
+    height: var(--common-font-size);
+    border-radius: 50%;
+}
+
+
+input[type='radio']:checked {
+    background-color: var(--base-contrast-color);
+    outline: 3px solid var(--base-color);
+}
+
+input[type='radio']:checked + label {
+    color: var(--base-color);
+}
+
+/* read status (end) -- */
 
 
 

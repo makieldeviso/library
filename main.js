@@ -17,6 +17,8 @@ const formDialogExit = document.querySelector('button#exit-add-form');
 const saveButton = document.querySelector('button#save-book');
     saveButton.addEventListener('click', saveBook);
 
+const libraryGrid = document.querySelector('section#library-grid');
+
 
 // Adds genre (start) - 
 const genreArray = [];
@@ -123,16 +125,16 @@ function selectMonth() {
 
 //  Creates book objects (start) - 
 const bookArray = [];
-function CreateBook ( name, title, author, pages, published, cover, genre ) {
-    this.name = name;
+function CreateBook ( id, title, author, pages, published, cover, readStatus, genre ) {
+    this.id = id;
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.published = published;
     this.cover = cover;
-    this.readStatus = 'Not Yet Started';
+    this.readStatus = readStatus;
     this.genre = genre;
-    bookArray.push(this);
+    // bookArray.push(this);
 }
 
 //  Creates book objects (end) -
@@ -145,6 +147,11 @@ function showBookForm () {
     } else if ( this === formDialogExit ) {
         formDialog.close();
     }
+
+    // Adds max attribute to get-year input field
+    const currentYear = new Date().getFullYear();
+    const getYearInput = document.querySelector('input#get-year');
+    getYearInput.setAttribute('max', currentYear);
 }
 
 function saveBook () {
@@ -158,17 +165,28 @@ function saveBook () {
     const publishMonth = document.querySelector('button#get-month');
     const publishYear = document.querySelector('input#get-year');
     const coverURL = document.querySelector('textarea#get-cover');
+    const readRadio = document.querySelectorAll('input[name="read-status"]');
     const genreCheckboxes = document.querySelectorAll('input[name="genre"]');
 
-    // Validates the Title, Author, Pages
-    function validate (...inputField) {
-        inputField.forEach(input => {
-            if ( input.value.length === 0 ) {
-                errors.push(input);
-            } 
-        });        
+    function validate (inputField) {
+        if (inputField.value.trim() === '') {
+            errors.push(inputField);
+            return false
+        } 
+
+        return true;
     }
-    validate(title, author);
+
+    // Create Title and Author
+    function createStringValue (inputField) {
+        const validateResult = validate(inputField);
+
+        if ( validateResult ) {
+            return inputField.value;
+        }
+
+        return "unknown";
+    }
 
     // Creates Book ID
     function createId () {
@@ -176,6 +194,20 @@ function saveBook () {
         const bookId = bookIdString.map(word => word.toUpperCase().slice(0, 1)); // get title first letters in uppercase
 
         return `${bookId.join("")}_${publishYear.value}`; // creates book ID
+    }
+
+    // Validates/ Create pages 
+    function createPages () {
+        let pageValue = 'unknown';
+
+        if (pages.value.trim() === '' ) {
+            pageValue = 'unknown';
+        } else {
+            pageValue = pages.value.trim();
+        }
+
+        return pageValue;
+
     }
 
     // Create Published Date value
@@ -211,6 +243,18 @@ function saveBook () {
         return cover;
     }
 
+    // Creates/ checks ReadStatus
+    function createRead() {
+        let readRadioChecked = 'nys';
+        
+        readRadio.forEach(radio => {
+            if (radio.checked) {
+                readRadioChecked = radio.value;
+            }
+        });
+
+        return readRadioChecked;
+    }
 
     // Creates genre Array
     function createGenre () {
@@ -224,20 +268,51 @@ function saveBook () {
         return genreCheckedArray;
     }
 
-
-
     function createBook() {
         const bookId = createId();
-        const published = createPublished();
+        const titleValue = createStringValue(title);
+        const authorValue = createStringValue(author);
+        const pagesValue = createPages();
+        const publishedValue = createPublished();
         const cover = createCover();
+        const readValue = createRead();
         const genreChecked = createGenre();
 
-        return new CreateBook (bookId, author.value, pages.value, published, cover, genreChecked, );
+        return new CreateBook (bookId, titleValue , authorValue, pagesValue, publishedValue, cover, readValue ,genreChecked);
     }
 
+   const newBook = createBook();
+   bookArray.push(newBook);
+//    console.log(bookArray);
+//    console.log(newBook.id);
 
-   createBook();
-   console.log(bookArray);
+    function addBookContent () {
+        const template = document.querySelector('section[data-template="template"]');
+
+        const newBookContainer = template.cloneNode(true);
+        newBookContainer.removeAttribute('data-template');
+
+        const dataIdNodes = newBookContainer.querySelectorAll('[data-id]');
+        dataIdNodes.forEach(node => node.setAttribute('data-id', newBook.id));
+
+        newBookContainer.setAttribute('data-id', `${newBook.id}`);
+        
+        newBookContainer.querySelector('h3').textContent = newBook.title;
+
+
+
+
+
+
+        libraryGrid.appendChild(newBookContainer);
+        // console.log(newBookContainer);
+    }
+
+addBookContent();
+
+
+
+
 }
 
 

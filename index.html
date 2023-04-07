@@ -21,8 +21,7 @@
 
     <main>
         <section id="library-grid">
-        
-            <section data-id="book1" class="book-container grid done">
+            <!-- <section data-id="book1" class="book-container grid done">
                 <h3 data-id="book1" class="title">Chainsaw Man</h3>
                 <button data-id="book1" data-class="read-status" class="done">
                     <i class="fa-regular fa-eye"></i>
@@ -150,7 +149,51 @@
                         <p class="content">412</p>
                     </div> 
                 </section>
+            </section> -->
+
+            <section data-template="template" data-id="book1" data-class="book-container" class="grid done">
+                <h3 data-id="book1" class="title">Chainsaw Man</h3>
+                <button data-id="book1" data-class="read-status" class="done">
+                    <i class="fa-regular fa-eye"></i>
+                </button>
+                <button data-id="book1" data-class="edit">
+                    <i class="fa-regular fa-pen-to-square"></i>
+                </button>
+                <div data-id="book1" class="genre">
+                    <ul>
+                        <li data-class="genre-tag">Comedy</li>
+                        <li data-class="genre-tag">Thriller</li>
+                        <li data-class="genre-tag">Action</li>
+                    </ul>
+                </div>
+                <div data-id='book1'
+                    data-class="cover-image"
+                    style="background-image: 
+                        url('https://upload.wikimedia.org/wikipedia/en/2/24/Chainsawman.jpg'),
+                        url(./images/book-preview.svg)">
+                </div>
+
+                <p data-class="read-status" class="done">Done</p>
+
+                <section data-id="book1" data-class="book-details">
+                    <h4 class="book-details">Book Details</h4>
+                    <div data-class="details" class="author">
+                        <p class="label">Author:</p>
+                        <p class="content">Tatsuki Fujimoto</p>
+                    </div>
+    
+                    <div data-class="details" class="published">
+                        <p class="label">Published:</p>
+                        <p class="content">December 3, 2018</p>
+                    </div>
+    
+                    <div data-class="details" class="pages">
+                        <p class="label">Pages:</p>
+                        <p class="content">2240</p>
+                    </div> 
+                </section>      
             </section>
+            
     
         </section>  <!-- section library-grid (end)  -->
         
@@ -158,8 +201,8 @@
         <button aria-label="add-book" id="add-book">
             <i class="fa-solid fa-plus"></i>
             <span>Add Book</span>
-        </button>   
-
+        </button> 
+          
 
         <dialog id="add-book-dialog">
             <div id="add-book-cont">
@@ -220,8 +263,6 @@
                              
                         <label for="get-year">Year </label>
                         <input type="number"
-                            min="1900"
-                            max="2023"
                             name="get-year" 
                             id="get-year"
                             placeholder="Type Year">
@@ -229,7 +270,7 @@
         
                     <div data-class="input-field" id="pages-cont">
                         <label for="get-pages">Pages: </label>
-                        <input type="text" name="get-pages" id="get-pages">
+                        <input type="number" name="get-pages" id="get-pages">
                     </div>
         
                     <div data-class="input-field" id="cover-cont">
@@ -247,6 +288,41 @@
                             <div id="genre-grid"></div>
                         </fieldset>
                     </div>
+
+                    <div data-class="input-field" id="read-cont">
+                        <fieldset>
+                            <legend>Have you read this book? </legend>
+                            <!-- <p>????</p> -->
+                            <div id="read-grid">
+                                <div class="radio-cont">
+                                    <input type="radio" 
+                                        name="read-status" 
+                                        id="nys" 
+                                        value="nys"
+                                        checked>
+                                    <label for="nys">Not yet</label>
+                                </div>
+
+                                <div class="radio-cont">
+                                    <input type="radio" 
+                                        name="read-status" 
+                                        id="on-going" 
+                                        value="on-going">
+                                    <label for="nys">On-going</label>
+                                </div>
+
+                                <div class="radio-cont">
+                                    <input type="radio" 
+                                        name="read-status" 
+                                        id="done" 
+                                        value="done">
+                                    <label for="nys">Yes</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+
         
                     <button type="button" id="save-book">Save</button>
                 </form>
