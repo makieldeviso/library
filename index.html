@@ -161,9 +161,9 @@
                 </button>
                 <div data-id="book1" class="genre">
                     <ul>
-                        <li data-class="genre-tag">Comedy</li>
+                        <!-- <li data-class="genre-tag">Comedy</li>
                         <li data-class="genre-tag">Thriller</li>
-                        <li data-class="genre-tag">Action</li>
+                        <li data-class="genre-tag">Action</li> -->
                     </ul>
                 </div>
                 <div data-id='book1'
@@ -284,7 +284,9 @@
                     <div data-class="input-field" id="genre-cont">
                         <fieldset>
                             <legend>Genre: </legend>
-                            <p>Select 1 to 3 genre</p>
+                            <p>Select 1 to 3 genre 
+                                <span id="genre-count"></span>
+                            </p>
                             <div id="genre-grid"></div>
                         </fieldset>
                     </div>
@@ -306,8 +308,8 @@
                                 <div class="radio-cont">
                                     <input type="radio" 
                                         name="read-status" 
-                                        id="on-going" 
-                                        value="on-going">
+                                        id="ongoing" 
+                                        value="ongoing">
                                     <label for="nys">On-going</label>
                                 </div>
 

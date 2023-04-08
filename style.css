@@ -339,6 +339,11 @@ div[data-class='input-field'] textarea {
     color: var(--darkest-color);
 }
 
+div[data-class='input-field'] input.error {
+    border: 1px inset var(--reject-color);
+    background-color: #f3adad; 
+}
+
 div#published-cont {
     width: 100%;
     display: grid;
@@ -536,6 +541,14 @@ input[type='checkbox']:checked + label {
     color: var(--base-color);
 }
 
+input[type='checkbox'] + label.disabled {
+    color: var(--dark-gray-color);
+}
+
+input[type='checkbox'][disabled='true'] {
+    background-color: var(--dark-gray-color);
+}
+
 /* genre (end) -- */
 
 /* read status (start) -- */
@@ -551,20 +564,22 @@ div.radio-cont {
     grid-template-columns: max-content 1fr;
     gap: var(--common-margin);
     align-items: center;
+   
 }
 
-input[type='radio'] {
+div[data-class='input-field'] input[type='radio'] {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background-color: var(--dark-gray-color);
+    background-color: var(--gray-color);
     width: var(--common-font-size);
     height: var(--common-font-size);
     border-radius: 50%;
+    padding: 0;
 }
 
 
-input[type='radio']:checked {
+div[data-class='input-field'] input[type='radio']:checked {
     background-color: var(--base-contrast-color);
     outline: 3px solid var(--base-color);
 }
