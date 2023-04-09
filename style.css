@@ -368,6 +368,7 @@ label[for='get-year'] {
     color: transparent;
 }
 
+
 button#get-month,
 input#get-year {
     background-color: var(--gray-color);
@@ -397,8 +398,15 @@ button#get-month.empty span i {
     color: var(--dark-gray-color);
 }
 
-form::-webkit-input-placeholder,
-form::placeholder {
+button#get-month.error,
+input#get-year.error {
+    border: 1px inset var(--reject-color);
+    background-color: #f3adad; 
+}
+
+
+::-webkit-input-placeholder,
+::placeholder {
     color: var(--dark-gray-color);
   }
 
