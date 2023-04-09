@@ -194,6 +194,45 @@ function addActiveListening (inputField) {
 }
 // Guides user for error/ validation (end) -
 
+// Changes Read Status from button (start) - 
+
+function changeReadStatus () {
+    const readStatusArray = ['nys', 'ongoing', 'done'];
+    const buttonId = this.dataset.id;
+    const bookObj = bookArray.filter(obj => obj.id === buttonId)[0];
+
+    const indexOfCurrent = readStatusArray.findIndex(status => status === bookObj.readStatus);
+
+    if ((indexOfCurrent + 1) === readStatusArray.length) {
+        bookObj.readStatus = readStatusArray[0];
+    } else {
+        bookObj.readStatus = readStatusArray[indexOfCurrent + 1];
+    }
+
+    this.setAttribute('class', bookObj.readStatus);
+
+    const readStatusLabel = document.querySelector(`section[data-id='${buttonId}'] p[data-class='read-status']`);
+
+    readStatusLabel.setAttribute('class', bookObj.readStatus);
+
+    switch (bookObj.readStatus) {
+        case 'nys': 
+            readStatusLabel.textContent = 'Not Yet Started';
+            break;
+        case 'ongoing': 
+            readStatusLabel.textContent = 'On-going';
+            break;
+        case 'done': 
+            readStatusLabel.textContent = 'Done';
+            break;
+        default :
+            readStatusLabel.textContent = 'Not Yet Started';
+    }
+}
+// Changes Read Status from button (end) -
+
+
+
 // Add Book content to page function (start) -
 function addBookContent (book) {
     const template = document.querySelector('section[data-template="template"]');
@@ -211,8 +250,12 @@ function addBookContent (book) {
     newBookContainer.querySelector('h3').textContent = book.title;
 
     // Styles Read Status button by adding class
-    newBookContainer.querySelector('button[data-class="read-status"]')
-    .setAttribute('class', `${book.readStatus}`);
+    const newReadBtn = newBookContainer.querySelector('button[data-class="read-status"]');
+    newReadBtn.setAttribute('class', `${book.readStatus}`);
+
+    // Adds event listener to read button
+    newReadBtn.addEventListener('click', changeReadStatus);
+    
 
     // Adds genre
     const genreList = newBookContainer.querySelector('div.genre ul');
@@ -232,6 +275,7 @@ function addBookContent (book) {
     // Adds read status text
     const newReadStatus = newBookContainer.querySelector('p[data-class="read-status"]');
     newReadStatus.setAttribute('class', `${book.readStatus}`);
+
     switch (book.readStatus) {
         case 'nys': 
             newReadStatus.textContent = 'Not Yet Started';
