@@ -1,5 +1,5 @@
-const genreField = document.querySelector("div#genre-cont fieldset");
 const genreGrid = document.querySelector('div#genre-grid');
+const genreFieldset = document.querySelector('div#genre-cont fieldset');
 const genreMax = 3;
 
 const selectMonthButton = document.querySelector('button#get-month');
@@ -91,7 +91,7 @@ function popMonthSelect() {
     monthSelector.showModal();
 
     const buttonPos = selectMonthButton.getBoundingClientRect();
-    const modalHeight = monthSelector.offsetHeight;
+    // const modalHeight = monthSelector.offsetHeight;
 
     const dialogTop = buttonPos.top + 15;
     const dialogLeft = buttonPos.left;  
@@ -99,11 +99,12 @@ function popMonthSelect() {
     monthSelector.style.top = `${dialogTop}px`;
     monthSelector.style.left = `${dialogLeft}px`;
 
-    window.addEventListener('scroll', detectScroll);
     function detectScroll() {
         monthSelector.close();
         window.removeEventListener('scroll', detectScroll);
     }
+    window.addEventListener('scroll', detectScroll);
+    
 }
 
 function selectMonth() {
@@ -142,23 +143,29 @@ function CreateBook ( id, title, author, pages, published, cover, readStatus, ge
 
 // Genre Limiter function (start) -
 function checkGenreLength () {
-        
     const genreChecked = Array.from(genreCheckboxes).filter(checkbox => checkbox.checked);
     const genreUnchecked = Array.from(genreCheckboxes).filter(checkbox => !checkbox.checked);
 
     // Disables genre checkboxes when max is reached
-    if (genreChecked.length >= genreMax) {
+    if (genreChecked.length === genreMax) {
         genreUnchecked.forEach(genre => {
             genre.setAttribute('disabled', 'true');
             genre.nextSibling.classList.add('disabled');
         });
-    } else {
+    } else if (genreChecked.length < genreMax ) {
         genreCheckboxes.forEach(genre => {
             if (genre.getAttribute('disabled')) {
                 genre.removeAttribute('disabled');
                 genre.nextSibling.classList.remove('disabled');
             }
         })
+    }
+
+    // Note: classList methods is used to ensure validation guide only triggers after faulty first submit
+    if (genreFieldset.getAttribute('class') === 'error') {
+        genreFieldset.classList.remove('error');
+    } else if (genreFieldset.getAttribute('class') === '' && genreChecked.length === 0) {
+        genreFieldset.classList.add('error');
     }
 
     genreCountText.textContent = `(${genreChecked.length} / ${genreMax})`;
@@ -311,8 +318,7 @@ function saveBook () {
         if ( !validateResult) {
             addActiveListening(inputField);
         }
-
-        console.log(errors); 
+ 
         return "unknown";
     }
 
@@ -404,12 +410,18 @@ function saveBook () {
 
     // Creates genre Array
     function createGenre () {
+        
         const genreCheckedArray = [];
         genreCheckboxes.forEach(checkbox => {
             if (checkbox.checked) {
                 genreCheckedArray.push(checkbox.value);
             }
         });
+
+        if (genreCheckedArray.length === 0) {
+            errors.push(genreFieldset);
+            genreFieldset.classList.add('error');
+        }
 
         return genreCheckedArray;
     }

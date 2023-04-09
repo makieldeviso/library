@@ -73,13 +73,17 @@ section[data-class='book-container'] {
     
     grid-template-columns: 1fr;
     grid-template-areas: 
-        "button"
-        "title"
+        "header"
         "genre"
         "cover"
         "read-status"
         "details";
     gap: calc(var(--common-margin) * 0.5);
+}
+
+/* template content is not displayed */
+section[data-template = 'template'] {
+    display: none;
 }
 
 section[data-class='book-container'].book-container.read {
@@ -102,11 +106,23 @@ p {
     font-size: var(--common-font-size);
 }
 
+div[data-class='header-cont'] {
+    grid-area: header;
+    display: grid;
+    grid-template-columns: max-content 1fr max-content;
+    justify-items: center;
+}
 
 h3.title {
-    grid-area: title;
+    width: 100%;
+    padding: calc(var(--common-padding) * 0.5);
+    padding-right: 0;
+    margin-right: calc(var(--common-padding) * 0.5) ;
     align-self: center;
     justify-self: center;
+    text-align: center;
+    overflow: hidden;
+    white-space: nowrap;
 
     font-size: var(--title-font-size);
     color: var(--base-color);
@@ -114,11 +130,6 @@ h3.title {
 
 button[data-class='read-status'],
 button[data-class='edit']{
-    grid-area: button;
-    position: absolute;
-    right: 0;
-    top: 0;
-
     width: calc(var(--header-font-size) * 2);
     height: calc(var(--header-font-size) * 2);
     border: 1px solid var(--darkest-color);
@@ -504,6 +515,17 @@ div#read-cont fieldset {
     width: 100%;
     padding: var(--common-padding);
 }
+
+div#genre-cont fieldset.error {
+    border: 2px solid var(--reject-color);
+}
+
+div#genre-cont fieldset.error legend,
+div#genre-cont fieldset.error p,
+div#genre-cont fieldset.error span{
+    color: var(--reject-color);
+}
+
 
 div#genre-cont legend,
 div#read-cont legend {
