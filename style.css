@@ -111,18 +111,21 @@ div[data-class='header-cont'] {
     display: grid;
     grid-template-columns: max-content 1fr max-content;
     justify-items: center;
+    gap: var(--common-margin);
 }
 
 h3.title {
     width: 100%;
-    padding: calc(var(--common-padding) * 0.5);
     padding-right: 0;
-    margin-right: calc(var(--common-padding) * 0.5) ;
+    margin: calc(var(--common-padding) * 0.5);
     align-self: center;
     justify-self: center;
     text-align: center;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;  
     overflow: hidden;
-    white-space: nowrap;
 
     font-size: var(--title-font-size);
     color: var(--base-color);
@@ -165,12 +168,14 @@ div.genre {
 
 div.genre ul {
     
-    display: flex;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-items: center;
     gap: var(--common-font-size);
     list-style-type: none;
     color: var(--off-white-color);
     font-size: calc(var(--common-font-size) * 0.8);
+    text-align: center;
 }
 
 div[data-class='cover-image'] {
