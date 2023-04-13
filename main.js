@@ -115,7 +115,6 @@ function popMonthSelect() {
         window.removeEventListener('scroll', detectScroll);
     }
     window.addEventListener('scroll', detectScroll);
-    
 }
 
 function selectMonth() {
@@ -171,7 +170,7 @@ function checkGenreLength () {
                 genre.removeAttribute('disabled');
                 genre.nextSibling.classList.remove('disabled');
             }
-        })
+        });
     }
 
     // Note: classList methods is used to ensure validation guide only triggers after faulty first submit
@@ -247,12 +246,18 @@ function changeReadStatus () {
 // Changes Read Status from button (end) -
 
 // Add Book content to page function (start) -
-function addBookContent (book) {
-    const template = document.querySelector('section[data-template="template"]');
+function addBookContent (book, action) {
+    let newBookContainer;
 
-    // Clones template from HTML as reference to new content
-    const newBookContainer = template.cloneNode(true);
-    newBookContainer.removeAttribute('data-template');
+    if (action === 'addBook') {
+        const template = document.querySelector('section[data-template="template"]');
+
+        // Clones template from HTML as reference to new content
+        newBookContainer = template.cloneNode(true);
+        newBookContainer.removeAttribute('data-template');
+    } else if (action === 'editBook') {
+       newBookContainer = document.querySelector(`section[data-id='${book.id}']`);
+    }
 
     // Add data id to relevant elements
     const dataIdNodes = newBookContainer.querySelectorAll('[data-id]');
@@ -275,6 +280,14 @@ function addBookContent (book) {
     
     // Adds genre
     const genreList = newBookContainer.querySelector('div.genre ul');
+    const genreListContent = newBookContainer.querySelectorAll('div.genre ul li');
+
+    if (genreListContent !== null) {
+        genreListContent.forEach(genre => {
+            genreList.removeChild(genre);
+        });
+    }
+    
     book.genre.forEach(genre => {
         const newList = document.createElement('li');
         newList.setAttribute('data-class', 'genre-tag');
@@ -306,6 +319,10 @@ function addBookContent (book) {
             newReadStatus.textContent = 'Not Yet Started';
     }
 
+
+
+
+
     // Adds author, published, pages
     const newAuthor = newBookContainer.querySelector('div.author p.content');
     newAuthor.textContent = `${book.author}`;
@@ -325,12 +342,26 @@ function addBookContent (book) {
 // Open and Close Add Book Form (start) -
 // Open Add Book Form (start) --
 function showBookForm () {
-    const editBtnId = this.dataset.id;
-    const bookObj = bookArray.filter(obj => obj.id === editBtnId)[0];
-    console.log(bookObj);
     
     if ( this === addBookButton || this.dataset.class === 'edit') {
         formDialog.showModal();
+
+        // Clears the form 
+        document.querySelector('form#add-book-form').reset();
+        title.setAttribute('value', '');
+        author.setAttribute('value', '');
+        pages.setAttribute('value', '');
+        publishYear.setAttribute('value', '');
+        publishMonth.setAttribute('class', 'empty');
+        publishMonth.setAttribute('value', '');
+        selectMonthButtonText.textContent = 'Select Month';
+        genreCheckboxes.forEach(checkbox => {
+            if (checkbox.hasAttribute('disabled')) {
+                checkbox.removeAttribute('disabled');
+                checkbox.nextSibling.classList.remove('disabled');
+            }
+        });
+    
     } else if ( this === formDialogExit ) {
         formDialog.close();
     }
@@ -349,24 +380,21 @@ function showBookForm () {
         const formHeader = document.querySelector('div#add-book-cont h3');
         formHeader.textContent = 'Add Book';
         saveButton.setAttribute('data-action', 'save-add');
+        saveButton.setAttribute('data-id', '');
 
-        // document.querySelector('form#add-book-form').reset();
-        // publishMonth.setAttribute('class', 'empty');
-        // publishMonth.setAttribute('value', '');
-        // selectMonthButtonText.textContent = 'Select Month';
-        // genreCheckboxes.forEach(checkbox => {
-        //     if (checkbox.hasAttribute('disabled')) {
-        //         checkbox.removeAttribute('disabled');
-        //         checkbox.nextSibling.classList.remove('disabled');
-        //     }
-        // });
     }
 
     // Adds data to form if dialog was triggered by "edit"
     if (this.dataset.class === 'edit') {
+        const editBtnId = this.dataset.id;
+        console.log(editBtnId);
+
+        const bookObj = bookArray.filter(obj => obj.id === editBtnId)[0];
+
         const formHeader = document.querySelector('div#add-book-cont h3');
         formHeader.textContent = 'Edit Book';
         saveButton.setAttribute('data-action', 'save-edit');
+        saveButton.setAttribute('data-id', editBtnId);
 
         title.setAttribute('value', `${bookObj.title}`);
         author.setAttribute('value', `${bookObj.author}`);
@@ -413,6 +441,8 @@ function showBookForm () {
 // Close Add Book Form (start) --   
 function saveBook () {
     const errors = [];
+    const saveBtnId = this.dataset.id;
+    const saveBookAction = this.dataset.action;
 
     function validate (inputField) {
         if (inputField.value.trim() === '') {
@@ -451,13 +481,15 @@ function saveBook () {
 
         let newId = `${bookId.join("")}_${year}`;
 
+       
         // Check if there is duplicate book (Allow but Id is numbered)
         const bookIds = bookArray.map(book => book.id);
         const sameId = bookIds.filter(id => id.includes(newId));
+
         if (sameId.length > 0) {
             newId += `(${sameId.length + 1})`;
         }
-
+        
         return newId ; // creates book ID
     }
 
@@ -543,7 +575,8 @@ function saveBook () {
     }
 
     // Gathers return data for object creation
-    function createBook() {
+    let idChange = false;
+    function createBook(buttonId) {
         const bookId = createId();
         const titleValue = createStringValue(title);
         const authorValue = createStringValue(author);
@@ -555,8 +588,36 @@ function saveBook () {
         const readValue = createRead();
         const genreChecked = createGenre();
 
-        if (errors.length === 0) {
+
+        if (errors.length === 0  && saveBookAction === 'save-add') {
             return new CreateBook (bookId, titleValue , authorValue, pagesValue, monthValue, yearValue, publishedValue, cover, readValue ,genreChecked);
+        } 
+        
+        if (errors.length === 0  && saveBookAction === 'save-edit') {
+            
+            const bookForEditId = buttonId;
+            const bookForEdit = bookArray.filter(obj => obj.id === bookForEditId)[0];
+
+            const oldTitle =  bookForEdit.title;
+            const oldYear = bookForEdit.year;
+
+            bookForEdit.title = titleValue;
+            bookForEdit.author = authorValue;
+            bookForEdit.pages = pagesValue;
+            bookForEdit.month = monthValue;
+            bookForEdit.year = yearValue;
+            bookForEdit.published = publishedValue;
+            bookForEdit.cover = cover;
+            bookForEdit.readStatus = readValue;
+            bookForEdit.published = publishedValue;
+            bookForEdit.genre = genreChecked;
+
+            // Detects change in title and year for re-ID
+            if (oldTitle !== bookForEdit.title || oldYear !== bookForEdit.year) {
+                idChange = true;
+            }
+
+            return bookForEdit;
         }
         
         return 'pendingError';
@@ -571,43 +632,31 @@ function saveBook () {
     }
 
     // Check for errors before closing
-    const newBook = createBook();
-    const saveBookAction = this.dataset.action;
+    const newBook = createBook(saveBtnId);
 
     if (newBook !== 'pendingError' && saveBookAction === 'save-add') {
         genreCheckboxes.forEach(genreInput => genreInput.removeEventListener('change', checkGenreLength));
         removeValidation(title, author);
         bookArray.push(newBook);
-        addBookContent(newBook);
+        addBookContent(newBook, 'addBook');
         formDialog.close();
 
-        // Clears the form upon successful save
-        document.querySelector('form#add-book-form').reset();
-        publishMonth.setAttribute('class', 'empty');
-        publishMonth.setAttribute('value', '');
-        selectMonthButtonText.textContent = 'Select Month';
-        genreCheckboxes.forEach(checkbox => {
-            if (checkbox.hasAttribute('disabled')) {
-                checkbox.removeAttribute('disabled');
-                checkbox.nextSibling.classList.remove('disabled');
-            }
-        });
-
     } else if (newBook !== 'pendingError' && saveBookAction === 'save-edit') {
-        console.log('edit');
+        addBookContent(newBook, 'editBook');
+        
+        // Check/ changes to book ID
+        if (idChange) {
+            const bookEdited = document.querySelector(`section[data-id='${newBook.id}']`);
+            newBook.id = createId(); // Assigns new ID
+
+            // Add data id to relevant elements
+            const dataIdNodes = bookEdited.querySelectorAll('[data-id]');
+            dataIdNodes.forEach(node => node.setAttribute('data-id', newBook.id));
+            bookEdited.setAttribute('data-id', `${newBook.id}`);
+        }
+
+        formDialog.close();
     }
-
-
-
-
-
-
-
-
-
-
-
-
 
     console.log(bookArray);
    
