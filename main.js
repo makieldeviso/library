@@ -137,7 +137,7 @@ function selectMonth() {
 // Pops and close Month Selector (end) -
 
 //  Creates book objects (start) - 
-const bookArray = [];
+const bookArray = []; // Note: Book is pushed manually 
 function CreateBook ( id, title, author, pages, month, year, published, cover, readStatus, genre ) {
     this.id = id;
     this.title = title;
@@ -149,7 +149,6 @@ function CreateBook ( id, title, author, pages, month, year, published, cover, r
     this.cover = cover;
     this.readStatus = readStatus;
     this.genre = genre;
-    // bookArray.push(this);
 }
 //  Creates book objects (end) -
 
@@ -319,10 +318,6 @@ function addBookContent (book, action) {
             newReadStatus.textContent = 'Not Yet Started';
     }
 
-
-
-
-
     // Adds author, published, pages
     const newAuthor = newBookContainer.querySelector('div.author p.content');
     newAuthor.textContent = `${book.author}`;
@@ -333,12 +328,14 @@ function addBookContent (book, action) {
     const newPages = newBookContainer.querySelector('div.pages p.content');
     newPages.textContent = `${book.pages}`;
 
-    // Appends final structure to DOM
-    libraryGrid.appendChild(newBookContainer);
+    // Appends final structure to DOM if new book
+    if (action === 'addBook') {
+        libraryGrid.appendChild(newBookContainer);
+    }
+
 }
 // Add Book content to page function (end) -
     
-
 // Open and Close Add Book Form (start) -
 // Open Add Book Form (start) --
 function showBookForm () {
@@ -381,7 +378,6 @@ function showBookForm () {
         formHeader.textContent = 'Add Book';
         saveButton.setAttribute('data-action', 'save-add');
         saveButton.setAttribute('data-id', '');
-
     }
 
     // Adds data to form if dialog was triggered by "edit"
@@ -416,7 +412,7 @@ function showBookForm () {
         }
         publishYear.setAttribute('value', `${bookObj.year}`);
 
-        coverURL.setAttribute('value', `${bookObj.cover}`);
+        coverURL.textContent= `${bookObj.cover}`;
 
         genreCheckboxes.forEach(checkbox => {
             const genreCheckbox = checkbox;
@@ -576,7 +572,7 @@ function saveBook () {
 
     // Gathers return data for object creation
     let idChange = false;
-    function createBook(buttonId) {
+    function createBookObj(buttonId) {
         const bookId = createId();
         const titleValue = createStringValue(title);
         const authorValue = createStringValue(author);
@@ -587,7 +583,6 @@ function saveBook () {
         const cover = createCover();
         const readValue = createRead();
         const genreChecked = createGenre();
-
 
         if (errors.length === 0  && saveBookAction === 'save-add') {
             return new CreateBook (bookId, titleValue , authorValue, pagesValue, monthValue, yearValue, publishedValue, cover, readValue ,genreChecked);
@@ -632,7 +627,7 @@ function saveBook () {
     }
 
     // Check for errors before closing
-    const newBook = createBook(saveBtnId);
+    const newBook = createBookObj(saveBtnId);
 
     if (newBook !== 'pendingError' && saveBookAction === 'save-add') {
         genreCheckboxes.forEach(genreInput => genreInput.removeEventListener('change', checkGenreLength));
@@ -659,7 +654,73 @@ function saveBook () {
     }
 
     console.log(bookArray);
-   
 }
 // Close Add Book Form (end) -- 
 // Open and Close Add Book Form (end) -
+
+// Book Presets (start) -
+
+CreateBook.prototype.pushBookToArray = function () {
+    bookArray.push(this);
+}
+
+const chainsawMan = new CreateBook( 
+    'CM_2018', // id
+    'Chainsaw Man', // title
+    'Tatsuki Fujimoto', // author
+    'unknown', // pages
+    'December', // month
+    2018, // year
+    'December, 2018', // published
+    'https://upload.wikimedia.org/wikipedia/en/2/24/Chainsawman.jpg', // cover
+    'ongoing', // readStatus
+    ['Thriller', 'Romance', 'Mystery'] // genre
+);
+
+const katanagatari = new CreateBook( 
+    'K_2007', // id
+    'Katanagatari', // title
+    'Nisio Isin', // author
+    'unknown', // pages
+    'January', // month
+    2007, // year
+    'January, 2007', // published
+    'https://upload.wikimedia.org/wikipedia/en/a/a9/Katanagatari_volume_one.jpg', // cover
+    'nys', // readStatus
+    ['Fantasy', 'Romance', 'Magical Realism'] // genre
+);
+
+const dune = new CreateBook( 
+    'D_1965', // id
+    'Dune', // title
+    'Frank Herbert', // author
+    '896', // pages
+    'August', // month
+    1965, // year
+    'August, 1965', // published
+    'https://upload.wikimedia.org/wikipedia/en/d/de/Dune-Frank_Herbert_%281965%29_First_edition.jpg', // cover
+    'done', // readStatus
+    ['Science Fiction', 'Romance', 'Dystopian'] // genre
+);
+
+const fellowship = new CreateBook( 
+    'FOTR_1954', // id
+    'The Fellowship of the Ring', // title
+    'J. R. R. Tolkien', // author
+    '423', // pages
+    'July', // month
+    1954, // year
+    'July, 1954', // published
+    'https://upload.wikimedia.org/wikipedia/en/8/8e/The_Fellowship_of_the_Ring_cover.gif', // cover
+    'done', // readStatus
+    ['Fantasy', 'Magical Realism', 'Romance'] // genre
+);
+
+const presetsArray = [chainsawMan, katanagatari, dune, fellowship];
+presetsArray.forEach(book => {
+    book.pushBookToArray()
+    addBookContent(book, 'addBook');
+})
+
+
+// Book Presets (end) -

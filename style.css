@@ -116,6 +116,7 @@ div[data-class='header-cont'] {
 
 h3.title {
     width: 100%;
+    min-height: calc(15px + 5vw);
     padding-right: 0;
     margin: calc(var(--common-padding) * 0.5);
     align-self: center;
@@ -167,10 +168,8 @@ div.genre {
 }
 
 div.genre ul {
-    
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    justify-items: center;
+    display: flex;
+    justify-content: center;
     gap: var(--common-font-size);
     list-style-type: none;
     color: var(--off-white-color);
@@ -180,12 +179,14 @@ div.genre ul {
 
 div[data-class='cover-image'] {
     grid-area: cover;
-
+    background-color: var(--darkest-lighter-color);
     width: 100px;
-    height: 120px;
-    border: 1px solid var(--base-contrast-color);
+    height: 110px;
+    border: 1px solid var(--base-color);
     background-position: center;
-    background-size: cover; 
+    background-position: center top;
+    background-size: 110%; 
+    background-repeat: no-repeat;
     margin: var(--common-margin) auto;
 }
 
@@ -286,6 +287,7 @@ dialog#add-book-dialog {
     border: none;
     background-color: transparent;
     margin: auto;
+    height: 100%;
     
     animation: 0.3s modal-show;
     padding: 10px;
@@ -300,7 +302,6 @@ div#add-book-cont {
     border: 1px solid var(--base-contrast-color);
     box-shadow: 0 0 15px var(--dark-gray-color);
     width: 100%;
-    overflow-y: scroll;
 }
 
 dialog#add-book-dialog h3 {
@@ -329,9 +330,10 @@ form#add-book-form {
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
     padding: var(--common-padding);
     gap: calc(var(--common-margin) * 2);
+
+    overflow-y: auto;
 }
 
 div[data-class='input-field'] {
