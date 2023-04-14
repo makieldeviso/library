@@ -86,17 +86,12 @@ section[data-template = 'template'] {
     display: none;
 }
 
-section[data-class='book-container'].book-container.read {
+section[data-class='book-container'][data-read='done'] {
     box-shadow: inset 0 0 10px var(--confirm-color);
     border-color: var(--confirm-color);
 }
 
-section[data-class='book-container'].book-container.done {
-    box-shadow: inset 0 0 10px var(--confirm-color);
-    border-color: var(--confirm-color);
-}
-
-section[data-class='book-container'].book-container.nys {
+section[data-class='book-container'][data-read='nys'] {
     border-color: var(--reject-color);
 }
 

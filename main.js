@@ -210,6 +210,7 @@ function changeReadStatus () {
     const readStatusArray = ['nys', 'ongoing', 'done'];
     const buttonId = this.dataset.id;
     const bookObj = bookArray.filter(obj => obj.id === buttonId)[0];
+    const bookContainer = document.querySelector(`section[data-id='${buttonId}']`);
 
     const indexOfCurrent = readStatusArray.findIndex(status => status === bookObj.readStatus);
 
@@ -222,6 +223,8 @@ function changeReadStatus () {
     }
 
     // Changes DOM properties
+    bookContainer.setAttribute('data-read', `${bookObj.readStatus}`); //! !!!!!!!!
+    
     this.setAttribute('class', bookObj.readStatus);
 
     const readStatusLabel = document.querySelector(`section[data-id='${buttonId}'] p[data-class='read-status']`);
@@ -280,7 +283,7 @@ function addBookContent (book, action) {
     // Adds genre
     const genreList = newBookContainer.querySelector('div.genre ul');
     const genreListContent = newBookContainer.querySelectorAll('div.genre ul li');
-
+    
     if (genreListContent !== null) {
         genreListContent.forEach(genre => {
             genreList.removeChild(genre);
@@ -303,6 +306,7 @@ function addBookContent (book, action) {
     // Adds read status text
     const newReadStatus = newBookContainer.querySelector('p[data-class="read-status"]');
     newReadStatus.setAttribute('class', `${book.readStatus}`);
+    newBookContainer.setAttribute('data-read', `${book.readStatus}`);
 
     switch (book.readStatus) {
         case 'nys': 
