@@ -16,7 +16,10 @@
   </head>
   <body>
     <header>
-        <h1>myReadList</h1>
+        <h1 id="page-title">myReadList</h1>
+        <button id="menu-btn">
+            <i class="fa-solid fa-chart-line"></i>
+        </button>
     </header>
 
     <main>
@@ -60,16 +63,55 @@
                     </div> 
                 </section>      
             </section>
-            
-    
         </section>  <!-- section library-grid (end)  -->
         
+
+        <section id="stats"> <!-- section book stats (start)-->
+            <div id="buttons-grid">
+                <button id="exit-menu-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+
+
+            <div id="stats-grid">
+                <h2 id="stats-header"> Stats</h2>
+                <div class="stat-cont" id="overall">
+                    <p id="overall" class="stat-label">Books</p>
+                    <p id="overall-stat" data-value="0">0</p>
+                </div>
+                
+                <div id="read-stat-grid">
+                    <div id="read-status-bar">
+                        <div id="nys-level"></div>
+                        <div id="ongoing-level"></div>
+                        <div id="done-level"></div>
+                    </div>
+
+                    <div class="read-stat-cont">
+                        <p class="stat-label">Not Yet Started</p>
+                        <div class="legend nys"></div>
+                        <p id ="nys-count" class="read-stat" data-value="0">0</p>
+                    </div>
+        
+                    <div class="read-stat-cont">
+                        <p class="stat-label">On-going</p>
+                        <div class="legend ongoing"></div>
+                        <p id ="ongoing-count" class="read-stat" data-value="0">0</p>
+                    </div>
+                    
+                    <div class="read-stat-cont">
+                        <p class="stat-label">Done</p>
+                        <div class="legend done"></div>
+                        <p id ="done-count" class="read-stat" data-value="0">0</p>
+                    </div>
+                </div>
+            </div>
+        </section> <!-- section book stats (end)-->
 
         <button aria-label="add-book" id="add-book">
             <i class="fa-solid fa-plus"></i>
             <span>Add Book</span>
         </button> 
-          
 
         <dialog id="add-book-dialog">
             <div id="add-book-cont">
@@ -170,7 +212,6 @@
                     <div data-class="input-field" id="read-cont">
                         <fieldset>
                             <legend>Have you read this book? </legend>
-                            <!-- <p>????</p> -->
                             <div id="read-grid">
                                 <div class="radio-cont">
                                     <input type="radio" 

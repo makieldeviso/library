@@ -21,6 +21,21 @@ const saveButton = document.querySelector('button#save-book');
 const libraryGrid = document.querySelector('section#library-grid');
 const genreCountText = document.querySelector('span#genre-count');
 
+const menuBtn = document.querySelector('button#menu-btn');
+const exitMenuBtn = document.querySelector('button#exit-menu-btn');
+    menuBtn.addEventListener('click', showStat);
+    exitMenuBtn.addEventListener('click', showStat);
+const statsSideBar = document.querySelector('section#stats');
+
+const overAllValue = document.querySelector('p#overall-stat');
+const nysValue = document.querySelector('p#nys-count');
+const ongoingValue = document.querySelector('p#ongoing-count');
+const doneValue = document.querySelector('p#done-count');
+
+const nysLevel = document.querySelector('div#nys-level');
+const ongoingLevel = document.querySelector('div#ongoing-level');
+const doneLevel = document.querySelector('div#done-level');
+
 // Form input Fields
 const title = document.querySelector('input#get-title');
 const author = document.querySelector('input#get-author');
@@ -30,7 +45,77 @@ const publishYear = document.querySelector('input#get-year');
 const coverURL = document.querySelector('textarea#get-cover');
 const readRadio = document.querySelectorAll('input[name="read-status"]');
 
+// Shows stats through menu-btn click (start) - 
+function showStat () {
 
+    if (this === menuBtn) {
+        statsSideBar.classList.add('shown');
+    } else if (this === exitMenuBtn) {
+        statsSideBar.classList.remove('shown');
+    }
+}
+// Shows stats through menu-btn click (end) -
+
+// Change stats functions (start) -
+function countBook() {
+    return bookArray.length;
+}
+
+function changeBookStats (arrayCount) {
+    // Logs number of books in the library to the DOM
+    overAllValue.setAttribute('data-value', `${arrayCount}`);
+    overAllValue.textContent = `${arrayCount}`;
+}
+
+function filterBooksRead (required) {
+    const nysArray = bookArray.filter(book => book.readStatus === 'nys');
+    const ongoingArray = bookArray.filter(book => book.readStatus === 'ongoing');
+    const doneArray = bookArray.filter(book => book.readStatus === 'done');
+
+    let filteredArray = nysArray;
+
+    if (required === 'ongoing') {
+        filteredArray =  ongoingArray;
+    }
+
+    if (required === 'done') {
+        filteredArray =  doneArray;
+    }
+
+    if (required === 'all') {
+        filteredArray =  [nysArray, ongoingArray, doneArray];
+    }
+
+    return filteredArray;
+}
+
+function changeReadStats () {
+    const specsArray = [];
+    function ReadStatsObj (node, filteredArray, levelBar) {
+        this.node = node;
+        this.filteredArray = filteredArray;
+        this.levelBar = levelBar;
+        specsArray.push(this);
+    }
+
+    const nys = new ReadStatsObj (nysValue, filterBooksRead('nys'), nysLevel);
+    const ongoing = new ReadStatsObj (ongoingValue, filterBooksRead('ongoing'), ongoingLevel);
+    const done = new ReadStatsObj (doneValue, filterBooksRead('done'), doneLevel);
+
+    specsArray.forEach(obj => {
+        const pElement = obj.node;
+        const levelBarElement = obj.levelBar;
+        const booksArr = obj.filteredArray;
+
+        pElement.setAttribute('data-value', `${booksArr.length}`);
+        pElement.textContent = `${booksArr.length}`
+
+        const levelPercentage = (booksArr.length / countBook()) * 100;
+        levelBarElement.style.width = `${levelPercentage}%`;
+    })    
+}
+
+// Change stats functions (end) -
 
 // Adds genre (start) - 
 const genreArray = [];
@@ -150,6 +235,11 @@ function CreateBook ( id, title, author, pages, month, year, published, cover, r
     this.readStatus = readStatus;
     this.genre = genre;
 }
+
+CreateBook.prototype.pushBookToArray = function () {
+    bookArray.push(this);
+}
+
 //  Creates book objects (end) -
 
 // Genre Limiter function (start) -
@@ -244,6 +334,8 @@ function changeReadStatus () {
         default :
             readStatusLabel.textContent = 'Not Yet Started';
     }
+
+    changeReadStats();
 }
 // Changes Read Status from button (end) -
 
@@ -332,14 +424,17 @@ function addBookContent (book, action) {
     const newPages = newBookContainer.querySelector('div.pages p.content');
     newPages.textContent = `${book.pages}`;
 
+    // Log user stats
+    changeBookStats(countBook());
+    changeReadStats();
+
     // Appends final structure to DOM if new book
     if (action === 'addBook') {
         libraryGrid.appendChild(newBookContainer);
     }
-
 }
 // Add Book content to page function (end) -
-    
+   
 // Open and Close Add Book Form (start) -
 // Open Add Book Form (start) --
 function showBookForm () {
@@ -636,7 +731,7 @@ function saveBook () {
     if (newBook !== 'pendingError' && saveBookAction === 'save-add') {
         genreCheckboxes.forEach(genreInput => genreInput.removeEventListener('change', checkGenreLength));
         removeValidation(title, author);
-        bookArray.push(newBook);
+        newBook.pushBookToArray();
         addBookContent(newBook, 'addBook');
         formDialog.close();
 
@@ -663,10 +758,6 @@ function saveBook () {
 // Open and Close Add Book Form (end) -
 
 // Book Presets (start) -
-
-CreateBook.prototype.pushBookToArray = function () {
-    bookArray.push(this);
-}
 
 const chainsawMan = new CreateBook( 
     'CM_2018', // id
@@ -725,6 +816,4 @@ presetsArray.forEach(book => {
     book.pushBookToArray()
     addBookContent(book, 'addBook');
 })
-
-
 // Book Presets (end) -
