@@ -243,7 +243,6 @@ function CreateBook ( id, title, author, pages, month, year, published, cover, r
 CreateBook.prototype.pushBookToArray = function () {
     bookArray.push(this);
 }
-
 //  Creates book objects (end) -
 
 // Genre Limiter function (start) -
@@ -350,27 +349,44 @@ function changeReadStatus () {
 // Show Options function (start) -
 function showOptions (event) {
     let buttonId;
-    const otherOptionsCont = document.querySelectorAll('div[data-class="edit-delete-cont"]');
+    const allOptionsCont = document.querySelectorAll('div[data-class="edit-delete-cont"]');
 
     // Conditional to allow toggling outside Options Button press
     if (typeof event === 'object') { // If triggered by clicking options button
         buttonId = this.dataset.id;
         const buttonsCont = document.querySelector(`div[data-id='${buttonId}'][data-class='edit-delete-cont']`);
         
+        const editButton = buttonsCont.querySelector('button[data-class="edit"]');
+
         // Ensures only one options menu is opened
-        otherOptionsCont.forEach(button => {
-            if (button.hasAttribute('class') && button !== buttonsCont) {
-                button.removeAttribute('class');
+        allOptionsCont.forEach(container => {
+            if (container.hasAttribute('class') && container !== buttonsCont) {
+                container.removeAttribute('class');
+
+                // Remove Event Listeners of buttons inside container
+                const otherEditButtons = container.querySelector('button[data-class="edit"]');
+                otherEditButtons.removeEventListener('click', showBookForm);
             }
         });
 
         buttonsCont.classList.toggle('shown');
 
+        const buttonShown = buttonsCont.getAttribute('class');
+        if (buttonShown === 'shown') {
+            editButton.addEventListener('click', showBookForm);
+        } else {
+            editButton.removeEventListener('click', showBookForm);
+        }
+
     } else { // If triggered by another function
         // Closes all possible opened option
-        otherOptionsCont.forEach(button => {
-            if (button.hasAttribute('class')) {
-                button.removeAttribute('class');
+        allOptionsCont.forEach(container => {
+            if (container.hasAttribute('class')) {
+                container.removeAttribute('class');
+
+                // Remove Event Listeners of buttons inside container
+                const otherEditButtons = container.querySelector('button[data-class="edit"]');
+                otherEditButtons.removeEventListener('click', showBookForm);
             }
         });
     }
@@ -400,19 +416,9 @@ function addBookContent (book, action) {
     // Adds title
     newBookContainer.querySelector('h3').textContent = book.title;
 
-
     // Adds event listener to options button
     const newOptionsBtn = newBookContainer.querySelector('button[data-class="options"]');
     newOptionsBtn.addEventListener('click', showOptions);
-
-    // Adds event listener to edit button
-    const newEditBtn = newBookContainer.querySelector('button[data-class="edit"]');
-    newEditBtn.addEventListener('click', showBookForm);
-
-    // Adds event listener to remove button
-
-
-
 
     // Styles Read Status button by adding class
     const newReadBtn = newBookContainer.querySelector('button[data-class="read-status"]');
