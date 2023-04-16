@@ -54,6 +54,9 @@ function showStat () {
     } else if (this === exitMenuBtn) {
         statsSideBar.classList.remove('shown');
     }
+
+    // Closes Options
+    showOptions();
 }
 // Shows stats through menu-btn click (end) -
 
@@ -336,7 +339,11 @@ function changeReadStatus () {
             readStatusLabel.textContent = 'Not Yet Started';
     }
 
+    // Logs user stats
     changeReadStats();
+
+    // Close Options
+    showOptions();
 }
 // Changes Read Status from button (end) -
 
@@ -367,7 +374,6 @@ function showOptions (event) {
             }
         });
     }
-    console.log(this);
 }
 
 // Show Options function (end) -
@@ -502,7 +508,7 @@ function showBookForm () {
         });
         
         // Closes Options Button if opened
-        
+        showOptions();
 
 
 
@@ -531,9 +537,6 @@ function showBookForm () {
     if (this.dataset.class === 'edit') {
         // id
         const editBtnId = this.dataset.id;
-
-        // Closes Options Menu
-        showOptions();
 
         // Get Book Object 
         const bookObj = bookArray.filter(obj => obj.id === editBtnId)[0];

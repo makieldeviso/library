@@ -202,15 +202,6 @@ button[data-class='options'] i {
     color: var(--off-white-color);
 }
 
-/* button[data-class='edit'],
-button[data-class='delete'] {
-    background-color: var(--off-white-color);
-} */
-
-
-
-
-
 button i {
     color: var(--darkest-color);
 }
@@ -231,7 +222,7 @@ div[data-class='edit-delete-cont'] {
     top: calc(var(--padding));
 
     z-index: 0;
-    transition: height 0.3s ease-in-out;
+    transition: height 0.1s ease-in-out;
 }
 
 :root {
@@ -253,7 +244,7 @@ div[data-class='edit-delete-cont'].shown > button[data-class='edit'] {
 
 div[data-class='edit-delete-cont'] > button[data-class='edit'] {
     transform: translateY(0);
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.1s ease-in-out;
     background-color: #c5ebc9;
 }
 
@@ -264,7 +255,7 @@ div[data-class='edit-delete-cont'].shown > button[data-class='delete'] {
 
 div[data-class='edit-delete-cont'] > button[data-class='delete'] {
     transform: translateY(calc((var(--button-height) + var(--gap))  * -1));
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.1s ease-in-out;
     background-color: #edbbbb;
 }
 
