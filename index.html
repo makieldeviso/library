@@ -26,9 +26,24 @@
         <section id="library-grid">
             <section data-template="template" data-id="book" data-class="book-container" class="grid">
                 <div data-class="header-cont">
-                    <button data-id="book" data-class="edit">
-                        <i class="fa-regular fa-pen-to-square"></i>
+
+                    <button data-id="book" data-class="options" 
+                        aria-labelledby="Options">
+                        <i class="fa-solid fa-ellipsis-vertical"></i>
                     </button>
+
+                    <div data-id="book" data-class="edit-delete-cont">
+                        <button data-id="book" data-class="edit"
+                            aria-labelledby="Edit Book">
+                            <i class="fa-regular fa-pen-to-square"></i>
+                        </button>
+                        
+                        <button data-id="book" data-class="delete"
+                        aria-labelledby="Delete Book">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                    </div>
+                    
                     <h3 data-id="book" class="title"></h3>
                     <button data-id="book" data-class="read-status" class="">
                         <i class="fa-regular fa-eye"></i>

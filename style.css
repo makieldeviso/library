@@ -161,7 +161,7 @@ div[data-class='header-cont'] {
 
 h3.title {
     width: 100%;
-    min-height: calc(15px + 5vw);
+    /* min-height: calc(15px + 5vw); */
     padding-right: 0;
     margin: calc(var(--common-padding) * 0.5);
     align-self: center;
@@ -178,7 +178,9 @@ h3.title {
 }
 
 button[data-class='read-status'],
-button[data-class='edit']{
+button[data-class='options'],
+button[data-class='edit'],
+button[data-class='delete']{
     width: calc(var(--header-font-size) * 2);
     height: calc(var(--header-font-size) * 2);
     border: 1px solid var(--darkest-color);
@@ -188,13 +190,88 @@ button[data-class='edit']{
     font-size: var(--header-font-size);
 }
 
+button[data-class='options'] {
+    z-index: 1;
+}
+
+button[data-class='options'] {
+    background-color: var(--darkest-lighter-color);
+}
+
+button[data-class='options'] i {
+    color: var(--off-white-color);
+}
+
+/* button[data-class='edit'],
+button[data-class='delete'] {
+    background-color: var(--off-white-color);
+} */
+
+
+
+
+
 button i {
     color: var(--darkest-color);
 }
 
-button[data-class='edit'] {
-    left: 0;
+div[data-class='edit-delete-cont'] {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--gap);
+    height: 25%;
+    overflow-y: hidden;
+    white-space: nowrap;
+
+    position: absolute;
+
+    left: var(--padding);
+    top: calc(var(--padding) + var(--button-height) + var(--gap));
+    top: calc(var(--padding));
+
+    z-index: 0;
+    transition: height 0.3s ease-in-out;
 }
+
+:root {
+    /* Note: assign custom properties for easier computation of*/
+    /* container position */
+    --padding: var(--common-padding);
+    --button-height: calc(var(--header-font-size) * 2);
+    --gap: calc(var(--common-padding) * 1.1);
+}
+
+div[data-class='edit-delete-cont'].shown {
+    height: 50%;
+}
+
+div[data-class='edit-delete-cont'].shown > button[data-class='edit'] {
+    transform: translateY(calc((var(--button-height) + var(--gap))  * 1));
+    border: 1px solid var(--confirm-color);
+}
+
+div[data-class='edit-delete-cont'] > button[data-class='edit'] {
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out;
+    background-color: #c5ebc9;
+}
+
+div[data-class='edit-delete-cont'].shown > button[data-class='delete'] {
+    transform: translateY(calc((var(--button-height) + var(--gap))  * 1));
+    border: 1px solid var(--reject-color);
+}
+
+div[data-class='edit-delete-cont'] > button[data-class='delete'] {
+    transform: translateY(calc((var(--button-height) + var(--gap))  * -1));
+    transition: transform 0.3s ease-in-out;
+    background-color: #edbbbb;
+}
+
+
+    
+
+
 
 button[data-class='read-status'].done {
     background-color: var(--confirm-color);

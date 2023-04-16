@@ -27,6 +27,7 @@ const exitMenuBtn = document.querySelector('button#exit-menu-btn');
     exitMenuBtn.addEventListener('click', showStat);
 const statsSideBar = document.querySelector('section#stats');
 
+// Statistics Elements
 const overAllValue = document.querySelector('p#overall-stat');
 const nysValue = document.querySelector('p#nys-count');
 const ongoingValue = document.querySelector('p#ongoing-count');
@@ -339,6 +340,38 @@ function changeReadStatus () {
 }
 // Changes Read Status from button (end) -
 
+// Show Options function (start) -
+function showOptions (event) {
+    let buttonId;
+    const otherOptionsCont = document.querySelectorAll('div[data-class="edit-delete-cont"]');
+
+    // Conditional to allow toggling outside Options Button press
+    if (typeof event === 'object') { // If triggered by clicking options button
+        buttonId = this.dataset.id;
+        const buttonsCont = document.querySelector(`div[data-id='${buttonId}'][data-class='edit-delete-cont']`);
+        
+        // Ensures only one options menu is opened
+        otherOptionsCont.forEach(button => {
+            if (button.hasAttribute('class') && button !== buttonsCont) {
+                button.removeAttribute('class');
+            }
+        });
+
+        buttonsCont.classList.toggle('shown');
+
+    } else { // If triggered by another function
+        // Closes all possible opened option
+        otherOptionsCont.forEach(button => {
+            if (button.hasAttribute('class')) {
+                button.removeAttribute('class');
+            }
+        });
+    }
+    console.log(this);
+}
+
+// Show Options function (end) -
+
 // Add Book content to page function (start) -
 function addBookContent (book, action) {
     let newBookContainer;
@@ -361,9 +394,19 @@ function addBookContent (book, action) {
     // Adds title
     newBookContainer.querySelector('h3').textContent = book.title;
 
+
+    // Adds event listener to options button
+    const newOptionsBtn = newBookContainer.querySelector('button[data-class="options"]');
+    newOptionsBtn.addEventListener('click', showOptions);
+
     // Adds event listener to edit button
     const newEditBtn = newBookContainer.querySelector('button[data-class="edit"]');
     newEditBtn.addEventListener('click', showBookForm);
+
+    // Adds event listener to remove button
+
+
+
 
     // Styles Read Status button by adding class
     const newReadBtn = newBookContainer.querySelector('button[data-class="read-status"]');
@@ -457,7 +500,12 @@ function showBookForm () {
                 checkbox.nextSibling.classList.remove('disabled');
             }
         });
-    
+        
+        // Closes Options Button if opened
+        
+
+
+
     } else if ( this === formDialogExit ) {
         formDialog.close();
     }
@@ -481,9 +529,13 @@ function showBookForm () {
 
     // Adds data to form if dialog was triggered by "edit"
     if (this.dataset.class === 'edit') {
+        // id
         const editBtnId = this.dataset.id;
-        console.log(editBtnId);
 
+        // Closes Options Menu
+        showOptions();
+
+        // Get Book Object 
         const bookObj = bookArray.filter(obj => obj.id === editBtnId)[0];
 
         const formHeader = document.querySelector('div#add-book-cont h3');
