@@ -760,7 +760,7 @@ section#stats {
     background-color: rgba(27, 26, 23, 0.95);
     height: 100%;
     transform: translateX(100%);
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.1s ease-in-out;
 
     position: absolute;
     top: 0;
@@ -774,7 +774,7 @@ section#stats.shown {
     transform: translateX(0);
 }
 
-div#buttons-grid {
+div#buttons-cont {
     padding: var(--common-padding);
     display: grid;
     grid-template-columns: 1fr;

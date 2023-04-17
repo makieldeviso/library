@@ -47,12 +47,55 @@ const coverURL = document.querySelector('textarea#get-cover');
 const readRadio = document.querySelectorAll('input[name="read-status"]');
 
 // Shows stats through menu-btn click (start) - 
-function showStat () {
+let startX;
+let moveX;
+let screenWidth;
 
+function getTouchStart (event) {
+    startX = event.touches[0].clientX;
+    screenWidth = window.screen.width;
+}
+
+function getTouchCurrent (event) {
+    moveX = event.touches[0].clientX;
+    const distanceX = moveX - startX;
+    
+
+    if (distanceX > 0) {
+        const transition = distanceX / screenWidth * 100;
+        statsSideBar.style.transform = `translateX(${transition}%)`;
+    }
+}
+
+function closeStatsBySlide () {
+    const distanceX = moveX - startX;
+    const transition = distanceX / screenWidth * 100;
+
+    if (transition > 40) {
+        statsSideBar.removeAttribute('style');
+        closeStat();
+    } else {
+        statsSideBar.removeAttribute('style');
+    }
+}
+
+function closeStat() {
+    statsSideBar.classList.remove('shown');
+
+    statsSideBar.removeEventListener('touchstart', closeStatsBySlide);
+    statsSideBar.addEventListener('touchmove',  getTouchCurrent);
+    statsSideBar.removeEventListener('touchend', closeStatsBySlide);
+}
+
+function showStat () {
     if (this === menuBtn) {
         statsSideBar.classList.add('shown');
+        statsSideBar.addEventListener('touchstart', getTouchStart);
+        statsSideBar.addEventListener('touchmove', getTouchCurrent);
+        statsSideBar.addEventListener('touchend', closeStatsBySlide);
+
     } else if (this === exitMenuBtn) {
-        statsSideBar.classList.remove('shown');
+        closeStat();
     }
 
     // Closes Options
