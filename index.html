@@ -45,7 +45,8 @@
                     </div>
                     
                     <h3 data-id="book" class="title"></h3>
-                    <button data-id="book" data-class="read-status" class="">
+                    <button data-id="book" data-class="read-status" class=""
+                        aria-labelledby="Toggle Read Status">
                         <i class="fa-regular fa-eye"></i>
                     </button>
                 </div>
@@ -260,6 +261,36 @@
                 </form>
             </div>
         </dialog>
+
+        <dialog id="delete-book-dialog">
+            <div id="add-book-cont">
+                <h3>Delete Book</h3>
+                <button id="exit-delete-form">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+
+                <div id="delete-prompt">
+                    <p>Are you sure you want to remove</p>
+                    <p>WAAW BOOK</p>
+                    <p>by WAAAAAAWWW WWAAAAW</p>
+                    <p>in your library?</p>
+
+                    <div id="choice-btns">
+                        <button>YES</button>
+                        <button>NO</button>
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+        </dialog>
+
+
+
+
 
     </main>
 

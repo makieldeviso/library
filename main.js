@@ -18,6 +18,10 @@ const formDialogExit = document.querySelector('button#exit-add-form');
 const saveButton = document.querySelector('button#save-book');
     saveButton.addEventListener('click', saveBook);
 
+// Delete Dialog
+const deleteDialog = document.querySelector('dialog#delete-book-dialog');
+const deleteDialogExit = document.querySelector('button#exit-delete-form');
+
 const libraryGrid = document.querySelector('section#library-grid');
 const genreCountText = document.querySelector('span#genre-count');
 
@@ -46,7 +50,7 @@ const publishYear = document.querySelector('input#get-year');
 const coverURL = document.querySelector('textarea#get-cover');
 const readRadio = document.querySelectorAll('input[name="read-status"]');
 
-// Shows stats through menu-btn click (start) - 
+// Shows stats through menu-btn click and touch screen (start) - 
 let startX;
 let moveX;
 let screenWidth;
@@ -60,11 +64,18 @@ function getTouchCurrent (event) {
     moveX = event.touches[0].clientX;
     const distanceX = moveX - startX;
     
-
     if (distanceX > 0) {
         const transition = distanceX / screenWidth * 100;
         statsSideBar.style.transform = `translateX(${transition}%)`;
     }
+}
+
+function closeStat() {
+    statsSideBar.classList.remove('shown');
+
+    statsSideBar.removeEventListener('touchstart', closeStatsBySlide);
+    statsSideBar.addEventListener('touchmove',  getTouchCurrent);
+    statsSideBar.removeEventListener('touchend', closeStatsBySlide);
 }
 
 function closeStatsBySlide () {
@@ -77,14 +88,6 @@ function closeStatsBySlide () {
     } else {
         statsSideBar.removeAttribute('style');
     }
-}
-
-function closeStat() {
-    statsSideBar.classList.remove('shown');
-
-    statsSideBar.removeEventListener('touchstart', closeStatsBySlide);
-    statsSideBar.addEventListener('touchmove',  getTouchCurrent);
-    statsSideBar.removeEventListener('touchend', closeStatsBySlide);
 }
 
 function showStat () {
@@ -101,7 +104,7 @@ function showStat () {
     // Closes Options
     showOptions();
 }
-// Shows stats through menu-btn click (end) -
+// Shows stats through menu-btn click and touch screen (end) - 
 
 // Change stats functions (start) -
 function countBook() {
@@ -114,6 +117,7 @@ function changeBookStats (arrayCount) {
     overAllValue.textContent = `${arrayCount}`;
 }
 
+// filters bookArray according to read status --
 function filterBooksRead (required) {
     const nysArray = bookArray.filter(book => book.readStatus === 'nys');
     const ongoingArray = bookArray.filter(book => book.readStatus === 'ongoing');
@@ -136,7 +140,9 @@ function filterBooksRead (required) {
     return filteredArray;
 }
 
+// Changes read Status in the Stats sidebar in the DOM
 function changeReadStats () {
+    // Note: Uses array and object for optimized code
     const specsArray = [];
     function ReadStatsObj (node, filteredArray, levelBar) {
         this.node = node;
@@ -161,7 +167,6 @@ function changeReadStats () {
         levelBarElement.style.width = `${levelPercentage}%`;
     })    
 }
-
 // Change stats functions (end) -
 
 // Adds genre (start) - 
@@ -205,6 +210,7 @@ genreArray.sort((a, b) => {
 });
 // Sorts the genre alphabetically (end) --
 
+// Adds genre checkboxes in the DOM function (start) --
 function addGenre(genre) {
     const genreContainer = document.createElement('div');
     genreContainer.setAttribute('class', 'checkbox-cont');
@@ -224,7 +230,11 @@ function addGenre(genre) {
 
     genreGrid.appendChild(genreContainer);
 }
+// Adds genre checkboxes in the DOM function (end) --
 
+// Note: Executes the addGenre function then contain NodeList to a variable
+//  to be used for other functions. Variable should be defined after object creation
+//  and DOM append.
 genreArray.forEach(genre => addGenre(genre));
 const genreCheckboxes = document.querySelectorAll('input[name="genre"]');
 // Adds genre (end) - 
@@ -389,6 +399,34 @@ function changeReadStatus () {
 }
 // Changes Read Status from button (end) -
 
+// Delete Book (start) -
+
+function showDeletePrompt () {
+
+    //  If delete button was pressed
+    if (this.getAttribute('data-class') === 'delete') {
+        deleteDialog.showModal();
+        deleteDialogExit.addEventListener('click', showDeletePrompt);
+        console.log(`${this.dataset.id} delete`);
+    }
+    
+
+    // if exit modal button was pressed
+    if (this === deleteDialogExit) {
+        deleteDialogExit.removeEventListener('click', showDeletePrompt);
+
+        deleteDialog.close();
+        
+    }
+
+}
+
+
+// Delete Book (end) -
+
+
+
+
 // Show Options function (start) -
 function showOptions (event) {
     let buttonId;
@@ -400,6 +438,7 @@ function showOptions (event) {
         const buttonsCont = document.querySelector(`div[data-id='${buttonId}'][data-class='edit-delete-cont']`);
         
         const editButton = buttonsCont.querySelector('button[data-class="edit"]');
+        const deleteButton = buttonsCont.querySelector('button[data-class="delete"]');
 
         // Ensures only one options menu is opened
         allOptionsCont.forEach(container => {
@@ -408,7 +447,9 @@ function showOptions (event) {
 
                 // Remove Event Listeners of buttons inside container
                 const otherEditButtons = container.querySelector('button[data-class="edit"]');
+                const otherDeleteButtons = container.querySelector('button[data-class="delete"]');
                 otherEditButtons.removeEventListener('click', showBookForm);
+                otherDeleteButtons.removeEventListener('click', showDeletePrompt);
             }
         });
 
@@ -417,8 +458,10 @@ function showOptions (event) {
         const buttonShown = buttonsCont.getAttribute('class');
         if (buttonShown === 'shown') {
             editButton.addEventListener('click', showBookForm);
+            deleteButton.addEventListener('click', showDeletePrompt);
         } else {
             editButton.removeEventListener('click', showBookForm);
+            deleteButton.removeEventListener('click', showDeletePrompt);
         }
 
     } else { // If triggered by another function
@@ -429,7 +472,9 @@ function showOptions (event) {
 
                 // Remove Event Listeners of buttons inside container
                 const otherEditButtons = container.querySelector('button[data-class="edit"]');
+                const otherDeleteButtons = container.querySelector('button[data-class="delete"]');
                 otherEditButtons.removeEventListener('click', showBookForm);
+                otherDeleteButtons.removeEventListener('click', showDeletePrompt);
             }
         });
     }
@@ -528,7 +573,9 @@ function addBookContent (book, action) {
 
     // Appends final structure to DOM if new book
     if (action === 'addBook') {
-        libraryGrid.appendChild(newBookContainer);
+        // Newly added book appends as first entry
+        const firstBook = document.querySelector('section[data-class="book-container"]');
+        libraryGrid.insertBefore(newBookContainer, firstBook);
     }
 }
 // Add Book content to page function (end) -
@@ -861,8 +908,31 @@ function saveBook () {
 // Close Add Book Form (end) -- 
 // Open and Close Add Book Form (end) -
 
-// Book Presets (start) -
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Book Presets (start) -
 const chainsawMan = new CreateBook( 
     'CM_2018', // id
     'Chainsaw Man', // title
