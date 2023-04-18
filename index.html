@@ -263,21 +263,28 @@
         </dialog>
 
         <dialog id="delete-book-dialog">
-            <div id="add-book-cont">
+            <div id="delete-book-cont">
                 <h3>Delete Book</h3>
                 <button id="exit-delete-form">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
 
                 <div id="delete-prompt">
-                    <p>Are you sure you want to remove</p>
-                    <p>WAAW BOOK</p>
-                    <p>by WAAAAAAWWW WWAAAAW</p>
-                    <p>in your library?</p>
+                    <div id="icon-cont">
+                        <i id="delete-prompt-icon" class="fa-solid fa-triangle-exclamation"></i>
+        
+                    </div>
+                    
+                    <p class="delete-prompt">Are you sure you want to remove</p>
+                    <div id="book-details-delete">
+                        <p class="delete-prompt" id="delete-title">" <strong>Chainsaw Man</strong></p>
+                        <p class="delete-prompt" id="delete-author">by <em>Tatsuki Fujimoto</em> "</p>
+                    </div>
+                    <p class="delete-prompt">in your library?</p>
 
                     <div id="choice-btns">
-                        <button>YES</button>
-                        <button>NO</button>
+                        <button id="delete-no" value="no">NO</button>
+                        <button id="delete-yes" value="yes">YES</button>
                     </div>
 
                 </div>
