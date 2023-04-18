@@ -602,7 +602,9 @@ function addBookContent (book, action) {
     book.genre.forEach(genre => {
         const newList = document.createElement('li');
         newList.setAttribute('data-class', 'genre-tag');
+        newList.setAttribute('data-genre', genre);
         newList.textContent = genre;
+        newList.addEventListener('click', filterGenre);
 
         genreList.appendChild(newList);
     })
@@ -982,8 +984,24 @@ function saveBook () {
 // Close Add Book Form (end) -- 
 // Open and Close Add Book Form (end) -
 
+// Filter books with specific genre (start) -
+function filterGenre () {
+    const genreToFilter = this.dataset.genre;
+    console.log(genreToFilter);
+
+    const booksWithGenre = bookArray.filter(book => book.genre.includes(`${genreToFilter}`));
+    console.log(booksWithGenre);
+
+    // const allBookContent = document.querySelectorAll('section')
 
 
+
+
+}
+
+
+
+// Filter books with specific genre (end) -
 
 
 
