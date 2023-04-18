@@ -591,6 +591,8 @@ function addBookContent (book, action) {
     const genreList = newBookContainer.querySelector('div.genre ul');
     const genreListContent = newBookContainer.querySelectorAll('div.genre ul li');
     
+    // Removes previous genre list before adding new
+    // Note: check existence to avoid error
     if (genreListContent !== null) {
         genreListContent.forEach(genre => {
             genreList.removeChild(genre);
@@ -668,6 +670,8 @@ function showBookForm () {
         publishMonth.setAttribute('class', 'empty');
         publishMonth.setAttribute('value', '');
         selectMonthButtonText.textContent = 'Select Month';
+        coverURL.setAttribute('value', '');
+        coverURL.textContent = '';
         genreCheckboxes.forEach(checkbox => {
             if (checkbox.hasAttribute('disabled')) {
                 checkbox.removeAttribute('disabled');
@@ -677,8 +681,6 @@ function showBookForm () {
         
         // Closes Options Button if opened
         showOptions();
-
-
 
     } else if ( this === formDialogExit ) {
         formDialog.close();
@@ -979,6 +981,7 @@ function saveBook () {
 }
 // Close Add Book Form (end) -- 
 // Open and Close Add Book Form (end) -
+
 
 
 
