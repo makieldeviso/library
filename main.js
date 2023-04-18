@@ -604,7 +604,7 @@ function addBookContent (book, action) {
         newList.setAttribute('data-class', 'genre-tag');
         newList.setAttribute('data-genre', genre);
         newList.textContent = genre;
-        newList.addEventListener('click', filterGenre);
+        newList.addEventListener('click', filterByGenre);
 
         genreList.appendChild(newList);
     })
@@ -985,17 +985,52 @@ function saveBook () {
 // Open and Close Add Book Form (end) -
 
 // Filter books with specific genre (start) -
-function filterGenre () {
+
+// Returns array of bookId with/ without (depends on argument) given genre
+function getIdFromGenre (genre, includes) {
+    let bookIdArray;
+
+    if (includes === true) {
+        // Gets array of book objects with the given genre
+        const booksWithGenre = bookArray.filter(book => book.genre.includes(genre));
+
+        // Gets the id of filtered books
+        bookIdArray = booksWithGenre.map(book => book.id);
+
+    } else if (includes === false) {
+        // Gets array of book objects WITHOUT the given genre
+        const booksWithoutGenre = bookArray.filter(book => !book.genre.includes(genre));
+
+        // Gets the id of filtered books
+        bookIdArray = booksWithoutGenre.map(book => book.id);
+    }
+
+    return bookIdArray;
+}
+
+// Remove class="hidden"/ display:none to book containers
+function displayBooks () {
+    const allBooksContainer = document.querySelectorAll('section[data-class="book-container"]');
+    allBooksContainer.forEach(book => {
+        book.removeAttribute('class');
+    });
+}
+
+function filterByGenre () {
+    // Gets genre to filter
     const genreToFilter = this.dataset.genre;
-    console.log(genreToFilter);
+    
+    // Get id of books WITHOUT the clicked genre
+    const booksWithoutGenre =  getIdFromGenre(genreToFilter, false);
 
-    const booksWithGenre = bookArray.filter(book => book.genre.includes(`${genreToFilter}`));
-    console.log(booksWithGenre);
+    // Remove class="hidden"/ display:none to book containers
+    displayBooks();
 
-    // const allBookContent = document.querySelectorAll('section')
-
-
-
+    // Removes book without the genre in the display
+    booksWithoutGenre.forEach(bookId => {
+        const bookContainer = document.querySelector(`section[data-id='${bookId}']`);
+        bookContainer.classList.add('hidden');
+    })
 
 }
 

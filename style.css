@@ -122,6 +122,10 @@ section[data-class='book-container'] {
     gap: calc(var(--common-margin) * 0.5);
 }
 
+section[data-class='book-container'].hidden {
+    display:none;
+}
+
 /* template content is not displayed */
 section[data-template = 'template'] {
     display: none;
@@ -249,11 +253,6 @@ div[data-class='edit-delete-cont'] > button[data-class='delete'] {
     transition: transform 0.1s ease-in-out;
     background-color: #edbbbb;
 }
-
-
-    
-
-
 
 button[data-class='read-status'].done {
     background-color: var(--confirm-color);
