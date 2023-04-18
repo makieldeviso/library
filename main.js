@@ -21,10 +21,14 @@ const saveButton = document.querySelector('button#save-book');
 // Delete Dialog
 const deleteDialog = document.querySelector('dialog#delete-book-dialog');
 const deleteDialogExit = document.querySelector('button#exit-delete-form');
+const yesDeleteBtn = document.querySelector('button#delete-yes');
+const noDeleteBtn = document.querySelector('button#delete-no');
 
+// Library
 const libraryGrid = document.querySelector('section#library-grid');
 const genreCountText = document.querySelector('span#genre-count');
 
+// Statistics side bar
 const menuBtn = document.querySelector('button#menu-btn');
 const exitMenuBtn = document.querySelector('button#exit-menu-btn');
     menuBtn.addEventListener('click', showStat);
@@ -37,6 +41,7 @@ const nysValue = document.querySelector('p#nys-count');
 const ongoingValue = document.querySelector('p#ongoing-count');
 const doneValue = document.querySelector('p#done-count');
 
+// Read Status bar graph
 const nysLevel = document.querySelector('div#nys-level');
 const ongoingLevel = document.querySelector('div#ongoing-level');
 const doneLevel = document.querySelector('div#done-level');
@@ -401,40 +406,84 @@ function changeReadStatus () {
 
 // Delete Book (start) -
 
-function showDeletePrompt () {
+function getChoice () {
+    const userResponse = this.value;
+    const bookId = this.dataset.id;
 
+    if (userResponse === 'yes') {
+        // Removes the book in the DOM
+        const bookContent = document.querySelector(`section[data-id='${bookId}']`);
+        libraryGrid.removeChild(bookContent);
+
+        // Removes the book in the bookArray/ library
+        // Note: This mutates the bookArray 
+        const bookObj = bookArray.filter(book => book.id === `${bookId}`)[0];
+        const bookObjIndex = bookArray.findIndex(book => book === bookObj);
+        bookArray.splice(bookObjIndex, 1);
+    } 
+
+    deleteDialog.close();
+
+    // Log user stats/ Changes statistics
+    changeBookStats(countBook());
+    changeReadStats();
+}
+
+
+
+function showDeletePrompt () {
     //  If delete button was pressed
-    if (this.getAttribute('data-class') === 'delete') {
+    if (this.dataset.class === 'delete') {
         deleteDialog.showModal();
+
+        // Assign variables
+        const bookId = this.dataset.id;
+        const bookObj = bookArray.filter(book => book.id === `${bookId}`)[0];
+
+        // Add event listeners
         deleteDialogExit.addEventListener('click', showDeletePrompt);
-        console.log(`${this.dataset.id} delete`);
+        yesDeleteBtn.addEventListener('click', getChoice);
+        noDeleteBtn.addEventListener('click', getChoice);
+
+        // Assign data-id to yes/ no buttons 
+        yesDeleteBtn.setAttribute('data-id', `${bookId}`);
+        noDeleteBtn.setAttribute('data-id', `${bookId}`);
+
+        
+        
+       // Change/ manipulate DOM
+        const deleteTitleNode = document.querySelector('p#delete-title strong');
+        const deleteAuthorNode = document.querySelector('p#delete-author em');
+
+        deleteTitleNode.textContent = `${bookObj.title}`;
+        deleteAuthorNode.textContent = `${bookObj.author}`;
+
     }
     
-
     // if exit modal button was pressed
     if (this === deleteDialogExit) {
         deleteDialogExit.removeEventListener('click', showDeletePrompt);
 
+        // Remove event listeners
+        deleteDialogExit.removeEventListener('click', showDeletePrompt);
+        yesDeleteBtn.removeEventListener('click', getChoice);
+        noDeleteBtn.removeEventListener('click', getChoice);
+
         deleteDialog.close();
-        
     }
-
 }
-
-
 // Delete Book (end) -
-
-
-
 
 // Show Options function (start) -
 function showOptions (event) {
-    let buttonId;
+    // Select NodeList for all options buttons container in the DOM
     const allOptionsCont = document.querySelectorAll('div[data-class="edit-delete-cont"]');
 
     // Conditional to allow toggling outside Options Button press
     if (typeof event === 'object') { // If triggered by clicking options button
-        buttonId = this.dataset.id;
+        const optionsBtnIcon = this.querySelector('i');
+
+        const buttonId = this.dataset.id;
         const buttonsCont = document.querySelector(`div[data-id='${buttonId}'][data-class='edit-delete-cont']`);
         
         const editButton = buttonsCont.querySelector('button[data-class="edit"]');
@@ -445,11 +494,11 @@ function showOptions (event) {
             if (container.hasAttribute('class') && container !== buttonsCont) {
                 container.removeAttribute('class');
 
+                //  Change options button icon
+                changeIcon(container);
+
                 // Remove Event Listeners of buttons inside container
-                const otherEditButtons = container.querySelector('button[data-class="edit"]');
-                const otherDeleteButtons = container.querySelector('button[data-class="delete"]');
-                otherEditButtons.removeEventListener('click', showBookForm);
-                otherDeleteButtons.removeEventListener('click', showDeletePrompt);
+                removeEvent(container);
             }
         });
 
@@ -459,9 +508,15 @@ function showOptions (event) {
         if (buttonShown === 'shown') {
             editButton.addEventListener('click', showBookForm);
             deleteButton.addEventListener('click', showDeletePrompt);
+
+            //  Change options button icon
+            optionsBtnIcon.setAttribute('class', 'fa-solid fa-xmark');
         } else {
             editButton.removeEventListener('click', showBookForm);
             deleteButton.removeEventListener('click', showDeletePrompt);
+
+            //  Change options button icon
+            optionsBtnIcon.setAttribute('class', 'fa-solid fa-ellipsis-vertical');
         }
 
     } else { // If triggered by another function
@@ -470,16 +525,33 @@ function showOptions (event) {
             if (container.hasAttribute('class')) {
                 container.removeAttribute('class');
 
+                //  Change options button icon
+                changeIcon(container);
+
                 // Remove Event Listeners of buttons inside container
-                const otherEditButtons = container.querySelector('button[data-class="edit"]');
-                const otherDeleteButtons = container.querySelector('button[data-class="delete"]');
-                otherEditButtons.removeEventListener('click', showBookForm);
-                otherDeleteButtons.removeEventListener('click', showDeletePrompt);
+                removeEvent(container);
             }
         });
     }
-}
 
+    // Note: Made as reusable changeIcon function to different instance
+    // Changes options button icon upon toggling
+    function changeIcon(buttonsContainer) {
+        const containerId = buttonsContainer.dataset.id;
+        const assignedOptionsBtn = document.querySelector(`button[data-id='${containerId}'][data-class='options'] i`);
+
+        assignedOptionsBtn.setAttribute('class', 'fa-solid fa-ellipsis-vertical');
+    }
+
+    // Note: Made as reusable remove event listeners function to different instance
+    // Removes event listeners upon close
+    function removeEvent (buttonsContainer) {
+        const otherEditButtons = buttonsContainer.querySelector('button[data-class="edit"]');
+        const otherDeleteButtons = buttonsContainer.querySelector('button[data-class="delete"]');
+        otherEditButtons.removeEventListener('click', showBookForm);
+        otherDeleteButtons.removeEventListener('click', showDeletePrompt);
+    }
+}
 // Show Options function (end) -
 
 // Add Book content to page function (start) -
@@ -567,7 +639,7 @@ function addBookContent (book, action) {
     const newPages = newBookContainer.querySelector('div.pages p.content');
     newPages.textContent = `${book.pages}`;
 
-    // Log user stats
+    // Log user stats/ Change statistics
     changeBookStats(countBook());
     changeReadStats();
 
