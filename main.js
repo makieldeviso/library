@@ -45,6 +45,8 @@ const nysValue = document.querySelector('p#nys-count');
 const ongoingValue = document.querySelector('p#ongoing-count');
 const doneValue = document.querySelector('p#done-count');
 
+const genreStatsGrid = document.querySelector('div#genre-stats-grid');
+
 // Read Status bar graph
 const nysLevel = document.querySelector('div#nys-level');
 const ongoingLevel = document.querySelector('div#ongoing-level');
@@ -82,9 +84,11 @@ function getTouchCurrent (event) {
 function closeStat() {
     statsSideBar.classList.remove('shown');
 
-    statsSideBar.removeEventListener('touchstart', closeStatsBySlide);
-    statsSideBar.addEventListener('touchmove',  getTouchCurrent);
+    statsSideBar.removeEventListener('touchstart', getTouchStart);
+    statsSideBar.removeEventListener('touchmove',  getTouchCurrent);
     statsSideBar.removeEventListener('touchend', closeStatsBySlide);
+
+    genreStatBtns.forEach(button => button.removeEventListener('click', filterByGenre));
 }
 
 function closeStatsBySlide () {
@@ -106,6 +110,16 @@ function showStat () {
         statsSideBar.addEventListener('touchmove', getTouchCurrent);
         statsSideBar.addEventListener('touchend', closeStatsBySlide);
 
+        // Only adds event listener to genre with book count
+        genreStatBtns.forEach(button => {
+            const bookCount = Number(button.dataset.count);
+
+            if (bookCount > 0) {
+                button.addEventListener('click', filterByGenre);
+            }
+        });
+
+
     } else if (this === exitMenuBtn) {
         closeStat();
     }
@@ -120,10 +134,16 @@ function countBook() {
     return bookArray.length;
 }
 
-function changeBookStats (arrayCount) {
-    // Logs number of books in the library to the DOM
-    overAllValue.setAttribute('data-value', `${arrayCount}`);
-    overAllValue.textContent = `${arrayCount}`;
+function getCurrentBooks() {
+    return bookArray;
+}
+
+// Logs number of books in the library to the DOM
+function changeBookStats () {
+    const bookCount = countBook();
+
+    overAllValue.setAttribute('data-value', `${bookCount}`);
+    overAllValue.textContent = `${bookCount}`;
 }
 
 // filters bookArray according to read status --
@@ -176,6 +196,27 @@ function changeReadStats () {
         levelBarElement.style.width = `${levelPercentage}%`;
     })    
 }
+
+// Change genre Stats in sidebar (start) - 
+
+function countBooksGenre (genre) {
+    const library = getCurrentBooks();
+
+    const filteredBooks = library.filter(book => book.genre.includes(genre));
+    return filteredBooks.length;
+}  
+
+function changeGenreStats () {
+    genreStatBtns.forEach(button => {
+        const booksCounted = countBooksGenre(button.value);
+
+        const buttonCount = button.querySelector('p.count');
+        buttonCount.textContent = `${booksCounted}`;
+        
+        button.setAttribute('data-count', booksCounted);
+    });
+}
+// Change genre Stats in sidebar (end) -
 // Change stats functions (end) -
 
 // Adds genre (start) - 
@@ -241,11 +282,36 @@ function addGenre(genre) {
 }
 // Adds genre checkboxes in the DOM function (end) --
 
+// Add genre buttons in the stats side bar (start) --
+function addGenreStat (genre) {
+    // Get template button and clone
+    const genreBtnTemplate = document.querySelector('div#genre-stats-grid button[data-template]');
+
+    const newGenreStat = genreBtnTemplate.cloneNode(true);
+    const newGenreLabel = newGenreStat.querySelector('p.label');
+
+    // Set attributes
+    newGenreStat.removeAttribute('data-template');
+    newGenreStat.setAttribute('value', genre.labelText);
+    newGenreStat.setAttribute('data-genre', genre.labelText);
+    newGenreStat.setAttribute('data-id', genre.id);
+
+    // Change Label
+    newGenreLabel.textContent = genre.labelText;
+
+    // Append buttons to genre-stats-grid
+    genreStatsGrid.appendChild(newGenreStat);
+}
+
+// Add genre buttons in the stats side bar (end) --
+
 // Note: Executes the addGenre function then contain NodeList to a variable
 //  to be used for other functions. Variable should be defined after object creation
 //  and DOM append.
 genreArray.forEach(genre => addGenre(genre));
+genreArray.forEach(genre => addGenreStat(genre));
 const genreCheckboxes = document.querySelectorAll('input[name="genre"]');
+const genreStatBtns = genreStatsGrid.querySelectorAll('button[data-class="genre-stats-btn"]');
 // Adds genre (end) - 
 
 // Pops and close Month Selector (start) -
@@ -429,8 +495,9 @@ function getChoice () {
     deleteDialog.close();
 
     // Log user stats/ Changes statistics
-    changeBookStats(countBook());
+    changeBookStats();
     changeReadStats();
+    changeGenreStats();
 }
 
 
@@ -657,8 +724,9 @@ function addBookContent (book, action) {
     newPages.textContent = `${book.pages}`;
 
     // Log user stats/ Change statistics
-    changeBookStats(countBook());
+    changeBookStats();
     changeReadStats();
+    changeGenreStats();
 
     // Appends final structure to DOM if new book
     if (action === 'addBook') {
@@ -1077,6 +1145,14 @@ function filterByGenre () {
         bookContainer.classList.add('hidden');
     }) 
 
+    // Identify if button clicked was from stats sidebar
+    const trigger = this.dataset.class;
+
+    if (trigger === 'genre-stats-btn') {
+        closeStat();
+    }
+
+
     // Shows genre filter tag in the DOM
     addGenreFilter(genreToFilter);
     
@@ -1084,11 +1160,9 @@ function filterByGenre () {
     showOptions();
 }
 
-
-
 // Filter books with specific genre (end) -
 
-
+ 
 
 
 
