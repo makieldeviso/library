@@ -23,6 +23,19 @@
     </header>
 
     <main>
+        <div id="filters-cont">
+            <div id="genre-filter">
+                <p id="genre-filter-label">
+                    <span id="genre-selected">Fantasy</span>
+                    Books
+                </p>
+                <button id="remove-genre-filter">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+        </div>
+
         <section id="library-grid">
             <section data-template="template" data-id="book" data-class="book-container" class="grid">
                 <div data-class="header-cont">
@@ -86,8 +99,6 @@
             <div id="buttons-cont">
                 <button id="exit-menu-btn"><i class="fa-solid fa-xmark"></i></button>
             </div>
-
-
 
             <div id="stats-grid">
                 <h2 id="stats-header"> Stats</h2>
@@ -272,7 +283,6 @@
                 <div id="delete-prompt">
                     <div id="icon-cont">
                         <i id="delete-prompt-icon" class="fa-solid fa-triangle-exclamation"></i>
-        
                     </div>
                     
                     <p class="delete-prompt">Are you sure you want to remove</p>

@@ -74,8 +74,6 @@ h1#page-title {
     z-index: 1;
 }
 
-
-
 button#menu-btn {
     width: calc(var(--title-font-size) * 2.5);
     height: calc(var(--title-font-size) * 2.5);
@@ -91,6 +89,78 @@ button#menu-btn i{
 }
 /* header (end) - */
 
+
+
+
+
+
+
+
+
+
+/* filters (start) - */
+div#filters-cont {
+    display: grid;
+    grid-template-columns: max-content 1fr 1fr;
+    padding: var(--common-padding);
+    padding-bottom: 0;
+    border-top: 1px solid var(--darkest-lighter-color);
+}
+
+div#genre-filter {
+    display: flex;
+    width: 0;
+    align-items: center;
+    gap: var(--common-margin);
+    background-color: var(--darkest-lighter-color);
+    padding: calc(var(--common-padding) * 0.5) 0;
+    border-radius: 5px;
+
+    overflow: hidden;
+    white-space: nowrap;
+    transition: width 0.1s ease-in-out;
+}
+
+div#genre-filter.shown {
+    width: 100%;
+    padding: calc(var(--common-padding) * 0.5);
+}
+
+p#genre-filter-label,
+p#genre-filter-label span,
+button#remove-genre-filter {
+    font-size: calc(var(--title-font-size) * 1);
+    color: var(--base-light-color);
+}
+
+button#remove-genre-filter {
+    width: max-content;
+    background-color: transparent;
+    border: 1px solid transparent;
+    
+    padding: calc(var(--common-padding) * 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+button#remove-genre-filter i {
+    color: var(--base-light-color);
+}
+
+/* filters (end) - */
+
+
+
+
+
+
+
+
+
+
+
+/* book-container - (start)*/
 section#library-grid {
     padding: var(--common-padding);
     display: grid;
@@ -101,7 +171,6 @@ section#library-grid {
     overflow-y: scroll;
 }
 
-/* book-container - (start)*/
 section[data-class='book-container'] {
     border: 1px solid var(--base-color);
     border-radius: 5px;
@@ -193,6 +262,10 @@ button[data-class='options'] {
     background-color: var(--darkest-lighter-color);
 }
 
+button[data-class='options'].clicked {
+    border-color: var(--dark-gray-color);
+}
+
 button[data-class='options'] i {
     color: var(--off-white-color);
 }
@@ -205,16 +278,27 @@ div[data-class='edit-delete-cont'] {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: max-content;
+
     gap: var(--gap);
     height: 0;
     overflow-y: hidden;
     white-space: nowrap;
 
+    /* border: 1px solid white; */
+    background: linear-gradient(
+        var(--dark-gray-color), 
+        var(--darkest-lighter-color),
+        var(--darkest-color));
+
+
     position: absolute;
 
     left: var(--padding);
-    top: calc(var(--padding) + var(--button-height) + var(--gap));
-    top: calc(var(--padding));
+    top: calc( var(--padding) + var(--half-button-height) );
 
     z-index: 0;
     transition: height 0.1s ease-in-out;
@@ -224,16 +308,17 @@ div[data-class='edit-delete-cont'] {
     /* Note: assign custom properties for easier computation of*/
     /* container position */
     --padding: var(--common-padding);
-    --button-height: calc(var(--header-font-size) * 2);
-    --gap: calc(var(--common-padding) * 1.1);
+    --button-height: calc( var(--header-font-size) * 2 );
+    --half-button-height: calc( var(--button-height) * 0.5 );
+    --gap: calc( var(--common-padding) * 1.1);
 }
 
 div[data-class='edit-delete-cont'].shown {
-    height: 50%;
+    height: 33%;
 }
 
 div[data-class='edit-delete-cont'].shown > button[data-class='edit'] {
-    transform: translateY(calc((var(--button-height) + var(--gap))  * 1));
+    transform: translateY(calc((var(--half-button-height) + var(--gap))  * 1));
     border: 1px solid var(--confirm-color);
 }
 
@@ -244,12 +329,12 @@ div[data-class='edit-delete-cont'] > button[data-class='edit'] {
 }
 
 div[data-class='edit-delete-cont'].shown > button[data-class='delete'] {
-    transform: translateY(calc((var(--button-height) + var(--gap))  * 1));
+    transform: translateY(calc((var(--half-button-height) + var(--gap))  * 1));
     border: 1px solid var(--reject-color);
 }
 
 div[data-class='edit-delete-cont'] > button[data-class='delete'] {
-    transform: translateY(calc((var(--button-height) + var(--gap))  * -1));
+    transform: translateY(calc((var(--half-button-height) + var(--gap))  * -1));
     transition: transform 0.1s ease-in-out;
     background-color: #edbbbb;
 }
@@ -275,9 +360,25 @@ div.genre ul {
     justify-content: center;
     gap: var(--common-font-size);
     list-style-type: none;
-    color: var(--off-white-color);
     font-size: calc(var(--common-font-size) * 0.8);
     text-align: center;
+}
+
+div.genre ul li {
+    color: var(--base-light-color);
+}
+
+div.genre ul li:hover {
+    cursor: pointer;
+    color: var(--base-color);
+    transform: scale(1.1);
+}
+
+@media (hover: none) {
+    div.genre ul li:hover {
+        color: var(--base-light-color);
+        transform: unset;
+    }
 }
 
 div[data-class='cover-image'] {
@@ -938,7 +1039,6 @@ div#done-level {
     height: 100%;
     background-color: var(--confirm-color);
 }
-
 
 div#read-stat-grid {
     display: grid;

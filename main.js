@@ -2,6 +2,10 @@ const genreGrid = document.querySelector('div#genre-grid');
 const genreFieldset = document.querySelector('div#genre-cont fieldset');
 const genreMax = 3;
 
+// Filter books by genre Nodes
+const genreFilterTag = document.querySelector('div#genre-filter');
+const removeFilterTag = document.querySelector('button#remove-genre-filter');
+
 const selectMonthButton = document.querySelector('button#get-month');
     selectMonthButton.addEventListener('click', popMonthSelect);
 const selectMonthButtonText = document.querySelector('button#get-month span#month-label');
@@ -511,12 +515,19 @@ function showOptions (event) {
 
             //  Change options button icon
             optionsBtnIcon.setAttribute('class', 'fa-solid fa-xmark');
+
+            // Add UI change on click
+            this.classList.add('clicked');
+
         } else {
             editButton.removeEventListener('click', showBookForm);
             deleteButton.removeEventListener('click', showDeletePrompt);
 
             //  Change options button icon
             optionsBtnIcon.setAttribute('class', 'fa-solid fa-ellipsis-vertical');
+
+            // Add UI change on click
+            this.classList.remove('clicked');
         }
 
     } else { // If triggered by another function
@@ -538,9 +549,11 @@ function showOptions (event) {
     // Changes options button icon upon toggling
     function changeIcon(buttonsContainer) {
         const containerId = buttonsContainer.dataset.id;
-        const assignedOptionsBtn = document.querySelector(`button[data-id='${containerId}'][data-class='options'] i`);
+        const assignedOptionsBtn = document.querySelector(`button[data-id='${containerId}'][data-class='options']`);
+        const buttonIcon = assignedOptionsBtn.querySelector('i');
 
-        assignedOptionsBtn.setAttribute('class', 'fa-solid fa-ellipsis-vertical');
+        assignedOptionsBtn.classList.remove('clicked');
+        buttonIcon.setAttribute('class', 'fa-solid fa-ellipsis-vertical');
     }
 
     // Note: Made as reusable remove event listeners function to different instance
@@ -1016,6 +1029,38 @@ function displayBooks () {
     });
 }
 
+function removeGenreFilter () {
+    displayBooks();
+    genreFilterTag.classList.remove('shown');
+    removeFilterTag.removeEventListener('click', removeGenreFilter);
+
+    // Close Options
+    showOptions();
+}
+
+function addGenreFilter (genreToFilter) {
+    const genreFilterLabel = document.querySelector('span#genre-selected');
+
+    function manipulateGenre () {
+        genreFilterTag.classList.add('shown');
+        removeFilterTag.addEventListener('click', removeGenreFilter);
+        genreFilterLabel.textContent = `${genreToFilter}`;
+    }
+
+    // Note: This conditional adds UI change effect if there is a new tag pressed 
+    //  without exiting previous tag
+    if (genreFilterTag.hasAttribute('class')) {
+        genreFilterTag.classList.remove('shown');
+
+        setTimeout(() => {
+            manipulateGenre();
+        } , 100);
+
+    } else {
+        manipulateGenre();
+    }
+}
+
 function filterByGenre () {
     // Gets genre to filter
     const genreToFilter = this.dataset.genre;
@@ -1030,8 +1075,13 @@ function filterByGenre () {
     booksWithoutGenre.forEach(bookId => {
         const bookContainer = document.querySelector(`section[data-id='${bookId}']`);
         bookContainer.classList.add('hidden');
-    })
+    }) 
 
+    // Shows genre filter tag in the DOM
+    addGenreFilter(genreToFilter);
+    
+    // Close Options
+    showOptions();
 }
 
 
