@@ -39,6 +39,8 @@ const exitMenuBtn = document.querySelector('button#exit-menu-btn');
     exitMenuBtn.addEventListener('click', showStat);
 const statsSideBar = document.querySelector('section#stats');
 
+    window.addEventListener('resize', genreDataStyle);
+
 // Statistics Elements
 const overAllValue = document.querySelector('p#overall-stat');
 const nysValue = document.querySelector('p#nys-count');
@@ -87,8 +89,6 @@ function closeStat() {
     statsSideBar.removeEventListener('touchstart', getTouchStart);
     statsSideBar.removeEventListener('touchmove',  getTouchCurrent);
     statsSideBar.removeEventListener('touchend', closeStatsBySlide);
-
-    genreStatBtns.forEach(button => button.removeEventListener('click', filterByGenre));
 }
 
 function closeStatsBySlide () {
@@ -109,16 +109,6 @@ function showStat () {
         statsSideBar.addEventListener('touchstart', getTouchStart);
         statsSideBar.addEventListener('touchmove', getTouchCurrent);
         statsSideBar.addEventListener('touchend', closeStatsBySlide);
-
-        // Only adds event listener to genre with book count
-        genreStatBtns.forEach(button => {
-            const bookCount = Number(button.dataset.count);
-
-            if (bookCount > 0) {
-                button.addEventListener('click', filterByGenre);
-            }
-        });
-
 
     } else if (this === exitMenuBtn) {
         closeStat();
@@ -211,11 +201,88 @@ function changeGenreStats () {
         const booksCounted = countBooksGenre(button.value);
 
         const buttonCount = button.querySelector('p.count');
-        buttonCount.textContent = `${booksCounted}`;
-        
+        if (booksCounted !== 0) {
+            buttonCount.textContent = `${booksCounted}`;
+        }
+
         button.setAttribute('data-count', booksCounted);
     });
+
+    // Sets other attributes
+    genreStatsSetAttr();
+    
 }
+
+function calculateGenrePercentage (genreBookCount) {
+    const genreCount = genreBookCount;
+    const bookCount = countBook();
+
+    const genrePercentage = genreCount / bookCount;
+    return genrePercentage;
+}
+
+function genreStatsSetAttr () {
+    // Only adds event listener to genre with book count
+    genreStatBtns.forEach(button => {
+        const genreBookCount = Number(button.dataset.count);
+
+        // Styles and add/ remove eventListener to genre buttons
+        if (genreBookCount > 0) {
+            button.classList.add('enabled');
+            button.addEventListener('click', filterByGenre);
+
+        } else if (genreBookCount === 0 && button.hasAttribute('class')) {
+            //  Note: This condition, allows active stat changes
+            button.classList.remove('enabled');
+            button.removeEventListener('click', filterByGenre);
+
+        }
+
+    });
+
+    // Change genre button scale according to genre percentage in library
+    genreDataStyle();
+}
+
+
+// Change genre button scale according to genre percentage in library
+function genreDataStyle (event) {
+    const btnLabel = document.querySelector('p#label-base');
+    // get computed style -> splice to remove 'px' -> convert to Number
+    let btnLabelFontSize = Number(window.getComputedStyle(btnLabel).getPropertyValue('font-size').slice(0, -2));
+
+    // Allows font size change on screen resize
+    if (typeof event === 'object') {
+        btnLabelFontSize = Number(window.getComputedStyle(btnLabel).getPropertyValue('font-size').slice(0, -2));
+        console.log(btnLabelFontSize);
+    }
+    
+    genreStatBtns.forEach(button => {
+        const genreBookCount = Number(button.dataset.count);
+    
+        const genreBookPercentage = genreBookCount / countBook();
+
+        const btnGenre = button.querySelector('p.label');
+        const btnGenreCount = button.querySelector('p.count');
+    
+        // Note: use setAttribute method to activate calculation every add/ delete book
+        // Changes Font-size and Opacity from computed values
+        btnGenre.setAttribute('style',`font-size: ${btnLabelFontSize + (10 * genreBookPercentage)}px`);
+        btnGenreCount.setAttribute('style',`font-size: ${btnLabelFontSize + (10 * genreBookPercentage)}px`);
+    
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
 // Change genre Stats in sidebar (end) -
 // Change stats functions (end) -
 
@@ -1097,6 +1164,8 @@ function displayBooks () {
     });
 }
 
+const filtersCont = document.querySelector('div#filters-cont');
+
 function removeGenreFilter () {
     displayBooks();
     genreFilterTag.classList.remove('shown');
@@ -1113,6 +1182,7 @@ function addGenreFilter (genreToFilter) {
         genreFilterTag.classList.add('shown');
         removeFilterTag.addEventListener('click', removeGenreFilter);
         genreFilterLabel.textContent = `${genreToFilter}`;
+
     }
 
     // Note: This conditional adds UI change effect if there is a new tag pressed 
