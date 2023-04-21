@@ -982,17 +982,32 @@ function saveBook () {
         const year = publishYear.value;
         let published = '';
 
-        // const errorsPublished = [];
+        // Validate max year input first if valid
+        function checkMax (input) {
+            if (Number(year) > Number(publishYear.max)) {
+                addActiveListening(publishYear);
+                errors.push(publishYear);
+            } else {
+                published = input;
+            }
+        }
 
         if (month === '' && year.length === 4) {
-            published = year;
+            const yearInput = year;
+            checkMax(yearInput);
+
         } else if (month !== '' && year.length !== 4) {
             addActiveListening(publishYear);
             errors.push(publishYear); // throws error of month without year
+
         } else if (month !== '' && year.length === 4) {
-            published = `${month}, ${year}`;
+            const monthYearInput = `${month}, ${year}`;
+            checkMax(monthYearInput);
+
         } else if (month === '' && year.length === 0) {
-            published = 'unknown';
+            const unknownInput = 'unknown';
+            checkMax(unknownInput);
+
         } else if (month === '' && year.length !== 4) {
             addActiveListening(publishYear);
             errors.push(publishYear);
@@ -1182,7 +1197,6 @@ function addGenreFilter (genreToFilter) {
         genreFilterTag.classList.add('shown');
         removeFilterTag.addEventListener('click', removeGenreFilter);
         genreFilterLabel.textContent = `${genreToFilter}`;
-
     }
 
     // Note: This conditional adds UI change effect if there is a new tag pressed 
