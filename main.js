@@ -1253,7 +1253,11 @@ function filterByGenre () {
 
     // Shows genre filter tag in the DOM
     addGenreFilter(genreToFilter);
+
+    // Scrolls to top when filtering to show genre filter tag
+    genreFilterTag.scrollIntoView({ behavior: "smooth", block: "center"} );
     
+    console.log(genreFilterTag);
     // Close Options
     showOptions();
 }
