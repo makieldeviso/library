@@ -3,6 +3,7 @@ const genreFieldset = document.querySelector('div#genre-cont fieldset');
 const genreMax = 3;
 
 // Filter books by genre Nodes
+// const filtersCont = document.querySelector('div#filters-cont');
 const genreFilterTag = document.querySelector('div#genre-filter');
 const removeFilterTag = document.querySelector('button#remove-genre-filter');
 
@@ -67,6 +68,10 @@ const readRadio = document.querySelectorAll('input[name="read-status"]');
 let startX;
 let moveX;
 let screenWidth;
+
+// Remembers filter activity
+let activeGenreFilter = false;
+let lastGenreFilter;
 
 function getTouchStart (event) {
     startX = event.touches[0].clientX;
@@ -188,7 +193,6 @@ function changeReadStats () {
 }
 
 // Change genre Stats in sidebar (start) - 
-
 function countBooksGenre (genre) {
     const library = getCurrentBooks();
 
@@ -203,6 +207,8 @@ function changeGenreStats () {
         const buttonCount = button.querySelector('p.count');
         if (booksCounted !== 0) {
             buttonCount.textContent = `${booksCounted}`;
+        } else if (booksCounted === 0) {
+            buttonCount.textContent = '';
         }
 
         button.setAttribute('data-count', booksCounted);
@@ -211,14 +217,6 @@ function changeGenreStats () {
     // Sets other attributes
     genreStatsSetAttr();
     
-}
-
-function calculateGenrePercentage (genreBookCount) {
-    const genreCount = genreBookCount;
-    const bookCount = countBook();
-
-    const genrePercentage = genreCount / bookCount;
-    return genrePercentage;
 }
 
 function genreStatsSetAttr () {
@@ -235,7 +233,6 @@ function genreStatsSetAttr () {
             //  Note: This condition, allows active stat changes
             button.classList.remove('enabled');
             button.removeEventListener('click', filterByGenre);
-
         }
 
     });
@@ -272,17 +269,6 @@ function genreDataStyle (event) {
     
     });
 }
-
-
-
-
-
-
-
-
-
-
-
 // Change genre Stats in sidebar (end) -
 // Change stats functions (end) -
 
@@ -542,7 +528,6 @@ function changeReadStatus () {
 // Changes Read Status from button (end) -
 
 // Delete Book (start) -
-
 function getChoice () {
     const userResponse = this.value;
     const bookId = this.dataset.id;
@@ -1123,6 +1108,14 @@ function saveBook () {
         removeValidation(title, author);
         newBook.pushBookToArray();
         addBookContent(newBook, 'addBook');
+
+        // Genre filter
+        if (activeGenreFilter) {
+            addGenreFilter(lastGenreFilter);
+            filterByGenre();
+        }
+        
+
         formDialog.close();
 
     } else if (newBook !== 'pendingError' && saveBookAction === 'save-edit') {
@@ -1137,6 +1130,12 @@ function saveBook () {
             const dataIdNodes = bookEdited.querySelectorAll('[data-id]');
             dataIdNodes.forEach(node => node.setAttribute('data-id', newBook.id));
             bookEdited.setAttribute('data-id', `${newBook.id}`);
+        }
+
+          // Genre filter
+          if (activeGenreFilter) {
+            addGenreFilter(lastGenreFilter);
+            filterByGenre();
         }
 
         formDialog.close();
@@ -1179,15 +1178,17 @@ function displayBooks () {
     });
 }
 
-const filtersCont = document.querySelector('div#filters-cont');
-
 function removeGenreFilter () {
     displayBooks();
-    genreFilterTag.classList.remove('shown');
+    genreFilterTag.classList.remove('shown');    
     removeFilterTag.removeEventListener('click', removeGenreFilter);
 
     // Close Options
     showOptions();
+
+    // Remembers if filter is active
+    activeGenreFilter = false;
+
 }
 
 function addGenreFilter (genreToFilter) {
@@ -1211,12 +1212,23 @@ function addGenreFilter (genreToFilter) {
     } else {
         manipulateGenre();
     }
+
+    // Remembers last genre filter and if filter is active
+    lastGenreFilter = genreToFilter;
+    activeGenreFilter = true;
 }
 
 function filterByGenre () {
-    // Gets genre to filter
-    const genreToFilter = this.dataset.genre;
-    
+    let genreToFilter;
+
+    if (this === window) {
+        // filters from outside function
+        genreToFilter = lastGenreFilter;
+    } else {
+        // Gets genre to filter from eventListener
+        genreToFilter = this.dataset.genre;
+    }
+
     // Get id of books WITHOUT the clicked genre
     const booksWithoutGenre =  getIdFromGenre(genreToFilter, false);
 
@@ -1229,13 +1241,15 @@ function filterByGenre () {
         bookContainer.classList.add('hidden');
     }) 
 
+    // Note: Additional condition to outside function declaration
     // Identify if button clicked was from stats sidebar
-    const trigger = this.dataset.class;
+    if (this !== window) {
+        const trigger = this.dataset.class;
 
-    if (trigger === 'genre-stats-btn') {
-        closeStat();
+        if (trigger === 'genre-stats-btn') {
+            closeStat();
+        }
     }
-
 
     // Shows genre filter tag in the DOM
     addGenreFilter(genreToFilter);
