@@ -188,7 +188,7 @@ div#scroll-allowance {
 
 section[data-class='book-container'] {
     border: 1px solid var(--base-color);
-    border-radius: 5px;
+    border-radius: 20px;
     width: 100%;
     padding: var(--common-padding);
     background-color: var(--darkest-lighter-color);
@@ -204,6 +204,8 @@ section[data-class='book-container'] {
         "read-status"
         "details";
     gap: calc(var(--common-margin) * 0.5);
+
+    transition: border-radius 0.2s ease-in-out;
 }
 
 section[data-class='book-container'].hidden {
@@ -216,6 +218,7 @@ section[data-template = 'template'] {
 }
 
 section[data-class='book-container'][data-read='done'] {
+    border-radius: 5px;
     border: 3px solid var(--confirm-color);
 }
 
@@ -459,7 +462,7 @@ button#add-book {
     padding: var(--common-padding);
 
     position: absolute;
-    bottom: 5vh;
+    top: 80%;
     right: 10vw;
     z-index: 1;
 
@@ -940,7 +943,7 @@ section#stats {
     transform: translateX(100%);
     transition: transform 0.1s ease-in-out;
 
-    position: absolute;
+    position: fixed;
     top: 0;
     z-index: 2;
 
