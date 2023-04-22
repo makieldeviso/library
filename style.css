@@ -54,7 +54,7 @@ body {
 
 header {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: max-content 1fr 1fr;
     align-items: center;
     padding: var(--common-padding);
     position: relative;
@@ -76,10 +76,17 @@ main {
 
 footer {
     height: calc(var(--header-height));
+    
 }
 
 
 /* header (start) - */
+img#site-logo {
+    width: auto;
+    height: calc(var(--title-font-size) * 2.5);
+    margin-right: var(--common-margin);
+}
+
 h1#page-title {
     z-index: 1;
     font-size: calc(var(--title-font-size) * 2.5);
