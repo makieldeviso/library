@@ -12,7 +12,6 @@
     --common-font-size: calc(0.4rem + 1vw);
     --header-font-size: calc(var(--common-font-size) * 1.1);
     --title-font-size: calc(var(--common-font-size) * 1.3);
-
     --form-font-size: calc(0.6rem + 1vw);
 
     --common-padding: calc(5px + 1vw);
@@ -30,7 +29,7 @@
     --confirm-color: #3CCF4E;
     --reject-color: #CC3636;
 
-    --header-height: 10vh;
+    --header-height: 8vh;
     --filters-height: 8vh;
     --main-content-padding: var(--header-height);
 
@@ -83,13 +82,13 @@ footer {
 /* header (start) - */
 img#site-logo {
     width: auto;
-    height: calc(var(--title-font-size) * 2.5);
+    height: calc(var(--title-font-size) * 2);
     margin-right: var(--common-margin);
 }
 
 h1#page-title {
     z-index: 1;
-    font-size: calc(var(--title-font-size) * 2.5);
+    font-size: calc(var(--title-font-size) * 2);
 }
 
 button#menu-btn {
@@ -111,13 +110,12 @@ button#menu-btn i{
 div#filters-cont {
     display: grid;
     grid-template-columns: max-content 1fr 1fr;
-    padding: var(--common-padding);
+    padding: calc(var(--common-padding) * 0.5);
 
     top: 0;
     z-index: 2;
     background-color: var(--darkest-color);
     width: 100%;
-
 }
 
 div#genre-filter {
@@ -168,7 +166,7 @@ button#remove-genre-filter i {
 /* book-container - (start)*/
 section#library-grid {
     padding: var(--common-padding);
-    padding-top: 0;
+    /* padding-top: 0; */
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(calc(150px + 5vw), 1fr));
     grid-auto-rows: max-content;
@@ -176,15 +174,18 @@ section#library-grid {
     gap: var(--common-margin);
     overflow-y: scroll;
 
+    border: 1px solid var(--darkest-lighter-color);
+    border-left: none;
+    border-right: none;
+
     position: relative;
 }
 
 div#scroll-allowance {
     background-color: transparent;
-    height: calc(60px + 5vw);
+    height: calc(var(--header-height) * 2);
     width: 100%;    
 }
-
 
 section[data-class='book-container'] {
     border: 1px solid var(--base-color);
@@ -462,32 +463,24 @@ button#add-book {
     padding: var(--common-padding);
 
     position: absolute;
-    top: 80%;
-    right: 10vw;
+    top: 85%;
+    right: 10%;
     z-index: 1;
 
-    display: grid;
-    grid-template-columns: max-content 1fr;
-    justify-items: center;
+    display: flex;
     align-items: center;
-    gap: 0;
-    transition: width 0.3s ease-in-out;
+    justify-content: center;
 }
 
 button#add-book i {
     color: var(--off-white-color);
     text-shadow: 0 0 5px var(--darkest-color);
-    transform: translateX(2px);
 }
 
 button#add-book span {
-    font-size: calc(var(--common-font-size) * 2);
-    width: 0;
-    overflow: hidden;
-    transition: width 0.3s ease-in-out;
-    text-align: right;
-    white-space: nowrap;
+    display: none;
 }
+
 
 /* button#add-book:hover {
     gap: var(--common-margin);
@@ -995,7 +988,7 @@ section#stats div#stats-grid {
 
 h2#stats-header {
     color: var(--darkest-color);
-    font-size: calc(var(--title-font-size) * 2);
+    font-size: calc(var(--title-font-size) * 1.8);
     text-align: center;
     padding-top: var(--common-padding);
     margin-bottom: calc(var(--common-margin) * 2);
@@ -1053,11 +1046,11 @@ h3.stat-name {
 
 div#read-status-bar {
     width: 100%;
-    height: 30px;
-    border: 1px solid var(--gray-color);
-    padding: 2px;
+    height: calc(5px + 5vw);
+    border: 3px solid var(--base-light-color);
+    border-radius: 5px;
+    overflow: hidden;
     display: flex;
-    background-color: var(--off-white-color);
     justify-content: center;
     align-items: center;
     grid-column: 1 / 4;
@@ -1196,16 +1189,202 @@ footer i,
 footer a {
     color: var(--darkest-color);
     font-size: var(--title-font-size);
-    text-align: center;
+    text-align: left;
 }
 
+footer a {
+    text-decoration: none;
+}
+
+footer a:visited {
+    color: var(--darkest-color);
+}
+
+footer a:hover,
+footer a:focus,
+footer a:hover i,
+footer a:focus i {
+    color: var(--dark-gray-color);
+    cursor: pointer;
+}
+
+footer a:active,
+footer a:active i {
+    transform: scale(1.1);
+}
 
 /* footer (end) - */
 
+/* Galaxy Fold */
+@media only screen and (max-width: 375px) and (min-height: 500px) {
+
+    button[data-class='read-status'], button[data-class='options'], button[data-class='edit'], button[data-class='delete'] {
+        width: calc(var(--header-font-size) * 2.3);
+        height: calc(var(--header-font-size) * 2.3);
+        font-size: calc(var(--header-font-size) * 1.3);
+    }
+
+    h3.title {
+        font-size: calc(var(--title-font-size) * 1.3);
+    }
+
+    div.genre ul {
+        font-size: calc(var(--common-font-size) * (0.8 + 0.3));
+    }
+
+    p {
+        font-size: calc(var(--common-font-size) * 1.3);
+    }
+}
+
+@media only screen and (min-width: 769px) {
+    :root {
+        --common-font-size: calc(0.4rem + 0.3vw);
+        --header-font-size: calc(var(--common-font-size) * 1.1);
+        --title-font-size: calc(var(--common-font-size) * 1.3);
+        --form-font-size: calc(0.6rem + 0.3vw);
+
+        --common-padding: calc(5px + 0.3vw);
+        --common-margin: calc(3px + 0.3vw);
+    }
+
+    header {
+        position: relative;
+    }
+
+    main {
+        display: grid;
+        grid-template-columns: 1fr 20% 30%;
+        grid-template-rows: max-content 1fr;
+        grid-template-areas:
+            'filters add-button stats'
+            'library library stats';
+        height: 87vh;
+        padding-top: 0;
+        gap: var(--common-margin);
+        row-gap: 0;
+    }
+
+    footer {
+        height: 5vh;
+    }
+
+    div#filters-cont {
+        grid-area: filters;
+    }
+
+    section#library-grid {
+        height: 99%;
+        grid-area: library;
+    }
+
+    section#stats {
+        width: 100%;
+        grid-area: stats;
+        transform: translateX(0);
+        position: relative;
+
+        display: flex;
+        justify-content: center;
+        background-color: var(--gray-color);
+        
+    }
+
+    section#stats div#stats-grid {
+        width: 100%;
+        margin: 0;
+        gap: calc(var(--common-margin) * 3);
+        
+    }
+
+    h2#stats-header {
+        padding-top: 0;
+        margin-bottom: 0;
+    }
+
+    h3.stat-name {
+        margin-top: 0;
+    }
+
+    div#read-stat-grid {
+        row-gap: calc(var(--common-margin) * 1.5);
+    }
+
+    div#read-status-bar {
+        max-height: 25px;
+    }
+
+   
+    div#genre-stats-grid {
+        row-gap: calc(var(--common-margin) * 1.5);
+    }
+
+    div#buttons-cont {
+        display: none;
+    }
+
+    button#add-book {
+        grid-area: add-button;
+        position: relative;
+        z-index: 2;
+        top: 0;
+        right: 0;
+
+        width: max-content;
+        height: max-content;
+        /* padding: calc(var(--common-padding) * 0.5); */
+        font-size: calc(var(--common-font-size) * 2);
+        align-self: center;
+        justify-self: end;
+        margin-right: 10%;
+        box-shadow: 0 0 5px var(--gray-color);
+        border-radius: 5px;
+    }
+
+    button#add-book span {
+        display: unset;
+    }
+
+}
+
+
+
+/* Webkit scroll-bar -- */
+/* Initially hides scroll-bar --- */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--base-light-color);
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--base-contrast-color);
+    visibility: hidden;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--base-color);
+    visibility: hidden;
+}
+
+section#library-grid:hover::-webkit-scrollbar-track,
+div#stats-grid:hover::-webkit-scrollbar-track {
+    visibility: visible;
+}
+
+section#library-grid:hover::-webkit-scrollbar-thumb,
+div#stats-grid:hover::-webkit-scrollbar-thumb {
+    visibility: visible;
+}
 
 
 
 
+/* section#library-grid:hover {
+    background-color: #CC3636;
+} */
 
 
 

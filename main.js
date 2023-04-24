@@ -2,6 +2,8 @@ const genreGrid = document.querySelector('div#genre-grid');
 const genreFieldset = document.querySelector('div#genre-cont fieldset');
 const genreMax = 3;
 
+// window.addEventListener('resize', changeLayout);
+
 // Filter books by genre Nodes
 // const filtersCont = document.querySelector('div#filters-cont');
 const genreFilterTag = document.querySelector('div#genre-filter');
@@ -264,8 +266,8 @@ function genreDataStyle (event) {
     
         // Note: use setAttribute method to activate calculation every add/ delete book
         // Changes Font-size and Opacity from computed values
-        btnGenre.setAttribute('style',`font-size: ${btnLabelFontSize + (10 * genreBookPercentage)}px`);
-        btnGenreCount.setAttribute('style',`font-size: ${btnLabelFontSize + (10 * genreBookPercentage)}px`);
+        btnGenre.setAttribute('style',`font-size: ${btnLabelFontSize + (btnLabelFontSize * genreBookPercentage)}px`);
+        btnGenreCount.setAttribute('style',`font-size: ${btnLabelFontSize + (btnLabelFontSize * genreBookPercentage)}px`);
     
     });
 }
@@ -1255,7 +1257,7 @@ function filterByGenre () {
     addGenreFilter(genreToFilter);
 
     // Scrolls to top when filtering to show genre filter tag
-    genreFilterTag.scrollIntoView({ behavior: "smooth", block: "center"} );
+    genreFilterTag.scrollIntoView( { behavior: "smooth", block: "center"} );
     
     console.log(genreFilterTag);
     // Close Options
@@ -1339,7 +1341,33 @@ const fellowship = new CreateBook(
     ['Fantasy', 'Magical Realism', 'Romance'] // genre
 );
 
-const presetsArray = [chainsawMan, katanagatari, dune, fellowship];
+const killingJoke = new CreateBook( 
+    'BTKJ_1988', // id
+    'Batman: The Killing Joke', // title
+    'Alan Moore', // author
+    '50', // pages
+    'March', // month
+    1988, // year
+    'March, 1988', // published
+    'https://upload.wikimedia.org/wikipedia/en/3/32/Killingjoke.JPG', // cover
+    'done', // readStatus
+    ['Thriller', 'Mystery', 'Literary Fiction'] // genre
+);
+
+const mockingBird = new CreateBook( 
+    'TKAMB_1960', // id
+    'To Kill a Mockingbird', // title
+    'Harper Lee', // author
+    '281', // pages
+    'July', // month
+    1960, // year
+    'July, 1960', // published
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/To_Kill_a_Mockingbird_%28first_edition_cover%29.jpg/330px-To_Kill_a_Mockingbird_%28first_edition_cover%29.jpg', // cover
+    'nys', // readStatus
+    ['Historical', 'Thriller', 'Bildungsroman'] // genre
+);
+
+const presetsArray = [chainsawMan, katanagatari, dune, fellowship, killingJoke, mockingBird];
 presetsArray.forEach(book => {
     book.pushBookToArray()
     addBookContent(book, 'addBook');
