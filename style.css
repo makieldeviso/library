@@ -505,7 +505,7 @@ button#add-book {
   padding: var(--common-padding);
 
   position: absolute;
-  top: 85%;
+  top: 80%;
   right: 10%;
   z-index: 1;
 
@@ -1503,46 +1503,9 @@ footer a:active i {
     flex-direction: row;
     justify-content: end;
   }
-}
 
-@media only screen and (min-width: 1440px) {
-  :root {
-    --common-font-size: calc(0.6rem + 0.1vw);
-    --form-font-size: calc(0.8rem + 0.1vw);
-    --common-padding: calc(8px + 0.1vw);
-    --common-margin: calc(6px + 0.1vw);
-  }
 
-  body {
-    width: 80vw;
-    margin: auto;
-    box-shadow: 0 0 10px 1px var(--base-contrast-color);
-  }
-
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    z-index: -1;
-    background-image: url("./images/background.jpg");
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-
-  main {
-    background-color: var(--darkest-color);
-  }
-
-  section#library-grid {
-    grid-template-columns: repeat(auto-fill, minmax(calc(170px + 2vw), 1fr));
-  }
-}
-
-/* firefox scrollbar (start)-- */
+  /* firefox scrollbar (start)-- */
 section#library-grid,
 div#stats-grid {
   scrollbar-color: transparent transparent;
@@ -1585,3 +1548,41 @@ div#stats-grid:hover::-webkit-scrollbar-thumb {
   visibility: visible;
 }
 /* Webkit scroll-bar (end)-- */
+}
+
+@media only screen and (min-width: 1440px) {
+  :root {
+    --common-font-size: calc(0.6rem + 0.1vw);
+    --form-font-size: calc(0.8rem + 0.1vw);
+    --common-padding: calc(8px + 0.1vw);
+    --common-margin: calc(6px + 0.1vw);
+  }
+
+  body {
+    width: 80vw;
+    margin: auto;
+    box-shadow: 0 0 10px 1px var(--base-contrast-color);
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: -1;
+    background-image: url("./images/background.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  main {
+    background-color: var(--darkest-color);
+  }
+
+  section#library-grid {
+    grid-template-columns: repeat(auto-fill, minmax(calc(170px + 2vw), 1fr));
+  }
+}
