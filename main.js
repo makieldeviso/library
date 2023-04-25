@@ -35,6 +35,9 @@ const noDeleteBtn = document.querySelector('button#delete-no');
 const libraryGrid = document.querySelector('section#library-grid');
 const genreCountText = document.querySelector('span#genre-count');
 
+const noBookIcon = document.querySelector('div#no-book');
+    window.addEventListener('load', showEmptyLibrary);
+
 // Statistics side bar
 const menuBtn = document.querySelector('button#menu-btn');
 const exitMenuBtn = document.querySelector('button#exit-menu-btn');
@@ -528,6 +531,23 @@ function changeReadStatus () {
 }
 // Changes Read Status from button (end) -
 
+// Add empty library UI
+
+function showEmptyLibrary () {
+    const bookCount = countBook();
+
+    if (bookCount <= 0) {
+        noBookIcon.classList.add('shown');
+    }
+
+    if (bookCount > 0) {
+        if (noBookIcon.hasAttribute('class')) {
+            noBookIcon.removeAttribute('class');
+        }
+    }
+}
+
+
 // Delete Book (start) -
 function getChoice () {
     const userResponse = this.value;
@@ -551,9 +571,10 @@ function getChoice () {
     changeBookStats();
     changeReadStats();
     changeGenreStats();
+
+    // Show empty library Icon if no book in library
+    showEmptyLibrary();
 }
-
-
 
 function showDeletePrompt () {
     //  If delete button was pressed
@@ -573,8 +594,6 @@ function showDeletePrompt () {
         yesDeleteBtn.setAttribute('data-id', `${bookId}`);
         noDeleteBtn.setAttribute('data-id', `${bookId}`);
 
-        
-        
        // Change/ manipulate DOM
         const deleteTitleNode = document.querySelector('p#delete-title strong');
         const deleteAuthorNode = document.querySelector('p#delete-author em');
@@ -1150,6 +1169,9 @@ function saveBook () {
 
     // Closes Options Button if opened
         showOptions();
+
+    // Removes empty library icon
+        showEmptyLibrary();
 
     console.log(bookArray);
 }

@@ -197,6 +197,29 @@ section#library-grid {
     position: relative;
 }
 
+div#no-book {
+    background-image: url('./images/no-book.svg');
+    background-color: var(--darkest-shader-color);
+    width: 150px;
+    height: 150px;
+    grid-column: 1 / -1;
+    grid-row-start: 2;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 20px 0 20px 0;
+    display: none;
+    margin:auto;
+}
+
+
+div#no-book.shown {
+    display: unset;
+}
+
+
+
+
 div#scroll-allowance {
     background-color: transparent;
     height: calc(var(--header-height) * 2);
@@ -1196,6 +1219,7 @@ div#read-status-bar {
 
 div#nys-level {
     height: 100%;
+    width: 100%;
     background-color: var(--reject-color);
     transition: all 0.2s ease-in-out;
 }
