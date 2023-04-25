@@ -1163,7 +1163,7 @@ div.stat-cont {
     min-height: 70px;
 }
 
-section#stats p#overall { 
+section#stats p#overall-label { 
     grid-column: 1 / 3;
 
     color: var(--off-white-color);
@@ -1321,15 +1321,12 @@ button[data-template] {
     display: none;
 }
 
-button[data-class="genre-stats-btn"].enabled p,
-button[data-class="genre-stats-btn"].enabled p span {
+button[data-class="genre-stats-btn"].enabled span {
     color: var(--off-white-color);
     opacity: unset;
 }
 
-
-button[data-class="genre-stats-btn"] p,
-button[data-class="genre-stats-btn"] p span {
+button[data-class="genre-stats-btn"] span {
     color: var(--base-color);
     font-size: calc(var(--title-font-size) * 0.8);
     opacity: 0.5;

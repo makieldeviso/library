@@ -209,7 +209,7 @@ function changeGenreStats () {
     genreStatBtns.forEach(button => {
         const booksCounted = countBooksGenre(button.value);
 
-        const buttonCount = button.querySelector('p.count');
+        const buttonCount = button.querySelector('span.count');
         if (booksCounted !== 0) {
             buttonCount.textContent = `${booksCounted}`;
         } else if (booksCounted === 0) {
@@ -264,8 +264,8 @@ function genreDataStyle (event) {
     
         const genreBookPercentage = genreBookCount / countBook();
 
-        const btnGenre = button.querySelector('p.label');
-        const btnGenreCount = button.querySelector('p.count');
+        const btnGenre = button.querySelector('span.label');
+        const btnGenreCount = button.querySelector('span.count');
     
         // Note: use setAttribute method to activate calculation every add/ delete book
         // Changes Font-size and Opacity from computed values
@@ -345,7 +345,7 @@ function addGenreStat (genre) {
     const genreBtnTemplate = document.querySelector('div#genre-stats-grid button[data-template]');
 
     const newGenreStat = genreBtnTemplate.cloneNode(true);
-    const newGenreLabel = newGenreStat.querySelector('p.label');
+    const newGenreLabel = newGenreStat.querySelector('span.label');
 
     // Set attributes
     newGenreStat.removeAttribute('data-template');

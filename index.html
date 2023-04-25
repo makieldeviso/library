@@ -38,29 +38,30 @@
         </div>
 
         <section id="library-grid">
+            <h2 style="display: none">Library</h2>
             <section data-template="template" data-id="book" data-class="book-container" class="grid">
                 <div data-class="header-cont">
 
                     <button data-id="book" data-class="options" 
-                        aria-labelledby="Options">
+                        aria-label="Options">
                         <i class="fa-solid fa-ellipsis-vertical"></i>
                     </button>
 
                     <div data-id="book" data-class="edit-delete-cont">
                         <button data-id="book" data-class="edit"
-                            aria-labelledby="Edit Book">
+                            aria-label="Edit Book">
                             <i class="fa-regular fa-pen-to-square"></i>
                         </button>
                         
                         <button data-id="book" data-class="delete"
-                        aria-labelledby="Delete Book">
+                        aria-label="Delete Book">
                             <i class="fa-regular fa-trash-can"></i>
                         </button>
                     </div>
                     
-                    <h3 data-id="book" class="title"></h3>
+                    <h3 data-id="book" class="title">Book Title</h3>
                     <button data-id="book" data-class="read-status" class=""
-                        aria-labelledby="Toggle Read Status">
+                        aria-label="Toggle Read Status">
                         <i class="fa-regular fa-eye"></i>
                     </button>
                 </div>
@@ -97,7 +98,6 @@
             <div id="no-book"></div>
             <div id="scroll-allowance"></div>
             
-
         </section>  <!-- section library-grid (end)  -->
         
         <button aria-label="add-book" id="add-book">
@@ -113,7 +113,7 @@
             <div id="stats-grid">
                 <h2 id="stats-header"> myStats</h2>
                 <div class="stat-cont" id="overall">
-                    <p id="overall" class="stat-label">Books</p>
+                    <p id="overall-label" class="stat-label">Books</p>
                     <p id="overall-stat" data-value="0">0</p>
                 </div>
                 
@@ -154,14 +154,12 @@
                     <div id="genre-stats-grid">
                         <button data-template="template"
                             data-class="genre-stats-btn">
-                            <p class="label"></p>
-                            <p class="count"></p>
+                            <span class="label"></span>
+                            <span class="count"></span>
                         </button>
                     </div>
                     
                 </div>
-
-
 
             </div>
         </section> <!-- section book stats (end)-->
@@ -172,7 +170,7 @@
                 <button id="exit-add-form">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
-                <form id="add-book-form" action="">
+                <form id="add-book-form">
                     <div data-class="input-field" id="title-cont">
                         <label for="get-title">Title: </label>
                         <input type="text" 
@@ -322,24 +320,15 @@
                         <button id="delete-no" value="no">NO</button>
                         <button id="delete-yes" value="yes">YES</button>
                     </div>
-
                 </div>
-
-
-
-
             </div>
         </dialog>
-
-
-
-
-
     </main>
 
     <footer>
         <p>Copyright <i class="fa-regular fa-copyright"></i> 2023 - Fred Mark Baldeviso</p>
         <p><a href="https://github.com/makieldeviso">makieldeviso <i class="fa-brands fa-github"></i></a></p>
     </footer>
+
   </body>
 </html>
