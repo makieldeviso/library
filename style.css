@@ -174,10 +174,10 @@ button#remove-genre-filter i {
 /* book-container - (start)*/
 section#library-grid {
   padding: var(--common-padding);
-  /* padding-top: 0; */
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(calc(150px + 5vw), 1fr));
   grid-auto-rows: max-content;
+  justify-items: center;
   height: 90%;
   gap: var(--common-margin);
   overflow-y: auto;
@@ -218,7 +218,6 @@ section[data-class="book-container"] {
   border: 1px solid var(--base-color);
   border-radius: 20px;
   width: 100%;
-  margin: auto;
   padding: var(--common-padding);
   background-color: var(--darkest-lighter-color);
 
