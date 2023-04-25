@@ -601,7 +601,7 @@ function showEmptyLibrary(event) {
   }
 
   // Removes load eventListener
-  if (event.type === 'load') {
+  if (this === window) {
     window.removeEventListener('load', showEmptyLibrary);
   }
 }
