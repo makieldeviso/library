@@ -268,7 +268,6 @@ function genreDataStyle (event) {
         // Changes Font-size and Opacity from computed values
         btnGenre.setAttribute('style',`font-size: ${btnLabelFontSize + (btnLabelFontSize * genreBookPercentage)}px`);
         btnGenreCount.setAttribute('style',`font-size: ${btnLabelFontSize + (btnLabelFontSize * genreBookPercentage)}px`);
-    
     });
 }
 // Change genre Stats in sidebar (end) -
