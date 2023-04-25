@@ -218,6 +218,7 @@ section[data-class="book-container"] {
   border: 1px solid var(--base-color);
   border-radius: 20px;
   width: 100%;
+  margin: auto;
   padding: var(--common-padding);
   background-color: var(--darkest-lighter-color);
 
@@ -1341,6 +1342,18 @@ footer a:active i {
 
   h3.title {
     font-size: calc(var(--title-font-size) * 1.3);
+  }
+
+  section#library-grid {
+    grid-template-columns: repeat(auto-fill, minmax(calc(180px + 5vw), 1fr));
+  }
+
+  section[data-class="book-container"] {
+    width: 90%;
+  }
+
+  div[data-class="details"] {
+    grid-template-columns: 35% 1fr;
   }
 
   div.genre ul {
