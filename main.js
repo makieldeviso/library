@@ -815,9 +815,15 @@ function showBookForm () {
                 checkbox.nextSibling.classList.remove('disabled');
             }
         });
-        
-        // Closes Options Button if opened
-        showOptions();
+
+        // Clears error UI
+        const inputFieldValidate = [title, author, publishYear, genreFieldset];
+        inputFieldValidate.forEach(field => {
+            const errorTest = field.getAttribute('class') === 'error';
+            if (errorTest) {
+                field.removeAttribute('class');
+            }
+        });
 
     } else if ( this === formDialogExit ) {
         formDialog.close();
@@ -1142,6 +1148,9 @@ function saveBook () {
 
         formDialog.close();
     }
+
+    // Closes Options Button if opened
+        showOptions();
 
     console.log(bookArray);
 }

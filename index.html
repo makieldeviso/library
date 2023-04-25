@@ -19,7 +19,7 @@
     <header>
         <img id="site-logo" src="./images/logo.png" alt="Site logo">
         <h1 id="page-title">myReadList</h1>
-        <button id="menu-btn" title="Show Statistics">
+        <button id="menu-btn">
             <i class="fa-solid fa-chart-line"></i>
         </button>
     </header>
@@ -117,28 +117,32 @@
                 
                 <div id="read-stat-grid">
                     <h3 class="stat-name">Reading Activity</h3>
-                    <div id="read-status-bar">
-                        <div id="nys-level"></div>
-                        <div id="ongoing-level"></div>
-                        <div id="done-level"></div>
-                    </div>
+                    <div id="read-details">
+                        <div id="read-status-bar">
+                            <div id="done-level"></div>
+                            <div id="ongoing-level"></div>
+                            <div id="nys-level"></div>
+                        </div>
+                        
+                        <div class="read-stat-cont">
+                            <p class="stat-label">Done</p>
+                            <div class="legend done"></div>
+                            <p id ="done-count" class="read-stat" data-value="0">0</p>
+                        </div>
 
-                    <div class="read-stat-cont">
-                        <p id='label-base' class="stat-label">Not Yet Started</p>
-                        <div class="legend nys"></div>
-                        <p id ="nys-count" class="read-stat" data-value="0">0</p>
-                    </div>
-        
-                    <div class="read-stat-cont">
-                        <p class="stat-label">On-going</p>
-                        <div class="legend ongoing"></div>
-                        <p id ="ongoing-count" class="read-stat" data-value="0">0</p>
-                    </div>
-                    
-                    <div class="read-stat-cont">
-                        <p class="stat-label">Done</p>
-                        <div class="legend done"></div>
-                        <p id ="done-count" class="read-stat" data-value="0">0</p>
+                        <div class="read-stat-cont">
+                            <p class="stat-label">On-going</p>
+                            <div class="legend ongoing"></div>
+                            <p id ="ongoing-count" class="read-stat" data-value="0">0</p>
+                        </div>
+
+                        <div class="read-stat-cont">
+                            <p id='label-base' class="stat-label">Not Yet Started</p>
+                            <div class="legend nys"></div>
+                            <p id ="nys-count" class="read-stat" data-value="0">0</p>
+                        </div>
+                        
+                        
                     </div>
                 </div>
 
@@ -274,7 +278,7 @@
                                         name="read-status" 
                                         id="ongoing" 
                                         value="ongoing">
-                                    <label for="nys">On-going</label>
+                                    <label for="ongoing">On-going</label>
                                 </div>
 
                                 <div class="radio-cont">
@@ -282,7 +286,7 @@
                                         name="read-status" 
                                         id="done" 
                                         value="done">
-                                    <label for="nys">Yes</label>
+                                    <label for="done">Yes</label>
                                 </div>
                             </div>
                         </fieldset>
