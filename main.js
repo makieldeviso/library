@@ -582,18 +582,27 @@ function changeReadStatus() {
 // Changes Read Status from button (end) -
 
 // Add empty library UI
-
-function showEmptyLibrary() {
+function showEmptyLibrary(event) {
   const bookCount = countBook();
-
+ 
   if (bookCount <= 0) {
     noBookIcon.classList.add("shown");
+
+    // Changes level-bars in stats bar to default
+    nysLevel.style.width = '100%';
+    ongoingLevel.style.width = '0';
+    doneLevel.style.width = '0';
   }
 
   if (bookCount > 0) {
     if (noBookIcon.hasAttribute("class")) {
       noBookIcon.removeAttribute("class");
     }
+  }
+
+  // Removes load eventListener
+  if (event.type === 'load') {
+    window.removeEventListener('load', showEmptyLibrary);
   }
 }
 
