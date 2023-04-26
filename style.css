@@ -106,7 +106,7 @@ button#menu-btn i {
 /* filters (start) - */
 div#filters-cont {
   display: grid;
-  grid-template-columns: max-content 1fr 1fr;
+  grid-template-columns: max-content 1fr;
   padding: calc(var(--common-padding) * 0.5);
 
   top: 0;
