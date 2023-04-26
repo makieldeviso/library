@@ -131,7 +131,7 @@ div#genre-filter {
 }
 
 div#genre-filter.shown {
-  width: 95%;
+  width: 100%;
   padding: calc(var(--common-padding) * 0.5);
 }
 
