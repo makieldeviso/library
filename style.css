@@ -273,6 +273,7 @@ div[data-class="header-cont"] {
 }
 
 h3.title {
+  cursor: pointer;
   width: 100%;
   padding-right: 0;
   margin: calc(var(--common-padding) * 0.5);

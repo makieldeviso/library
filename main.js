@@ -797,7 +797,9 @@ function addBookContent(book, action) {
   newBookContainer.setAttribute("data-id", `${book.id}`);
 
   // Adds title
-  newBookContainer.querySelector("h3").textContent = book.title;
+  const bookTitle = newBookContainer.querySelector("h3");
+  bookTitle.textContent = book.title;
+  bookTitle.setAttribute('title', `${book.title}`);
 
   // Adds event listener to options button
   const newOptionsBtn = newBookContainer.querySelector(
