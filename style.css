@@ -1301,7 +1301,8 @@ footer {
 
 footer p,
 footer i,
-footer a {
+footer a,
+footer span {
   color: var(--darkest-color);
   font-size: var(--title-font-size);
   text-align: center;

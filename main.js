@@ -71,6 +71,11 @@ const publishYear = document.querySelector("input#get-year");
 const coverURL = document.querySelector("textarea#get-cover");
 const readRadio = document.querySelectorAll('input[name="read-status"]');
 
+// Update footer content
+const footerYear = document.querySelector('#footer-year');
+footerYear.textContent = (new Date()).getFullYear();
+
+
 // Shows stats through menu-btn click and touch screen (start) -
 let startX;
 let moveX;
